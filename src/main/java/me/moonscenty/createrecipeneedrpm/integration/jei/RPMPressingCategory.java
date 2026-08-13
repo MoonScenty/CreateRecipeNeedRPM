@@ -1,26 +1,26 @@
 package me.moonscenty.createrecipeneedrpm.integration.jei;
 
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
-import com.simibubi.create.compat.jei.category.MillingCategory;
-import com.simibubi.create.content.kinetics.crusher.AbstractCrushingRecipe;
-import me.moonscenty.createrecipeneedrpm.recipe.RPMMillingRecipe;
+import com.simibubi.create.compat.jei.category.PressingCategory;
+import com.simibubi.create.content.kinetics.press.PressingRecipe;
+import me.moonscenty.createrecipeneedrpm.recipe.RPMPressingRecipe;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
-public class RPMMillingCategory extends MillingCategory {
+public class RPMPressingCategory extends PressingCategory {
 
-    public RPMMillingCategory(
-            CreateRecipeCategory.Info<AbstractCrushingRecipe> info
+    public RPMPressingCategory(
+            CreateRecipeCategory.Info<PressingRecipe> info
     ) {
         super(info);
     }
 
     @Override
     public void draw(
-            AbstractCrushingRecipe recipe,
+            PressingRecipe recipe,
             IRecipeSlotsView recipeSlotsView,
             GuiGraphics graphics,
             double mouseX,
@@ -34,7 +34,7 @@ public class RPMMillingCategory extends MillingCategory {
                 mouseY
         );
 
-        if (!(recipe instanceof RPMMillingRecipe rpmRecipe)) {
+        if (!(recipe instanceof RPMPressingRecipe rpmRecipe)) {
             return;
         }
 
@@ -45,8 +45,8 @@ public class RPMMillingCategory extends MillingCategory {
                 formatRPM(rpmRecipe.getMinRPM())
         ).withStyle(ChatFormatting.GOLD);
 
-        int x = 171 - font.width(text);
-        int y = 11;
+        int x = (177 - font.width(text)) / 2;
+        int y = 66;
 
         graphics.drawString(
                 font,

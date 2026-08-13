@@ -2,6 +2,7 @@ package me.moonscenty.createrecipeneedrpm.integration.jei;
 
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import com.simibubi.create.content.kinetics.crusher.AbstractCrushingRecipe;
+import com.simibubi.create.content.kinetics.press.PressingRecipe;
 import me.moonscenty.createrecipeneedrpm.CreateRecipeNeedRPM;
 import me.moonscenty.createrecipeneedrpm.registry.ModBlocks;
 import me.moonscenty.createrecipeneedrpm.registry.ModRecipeTypes;
@@ -22,6 +23,7 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
             );
 
     private CreateRecipeCategory<AbstractCrushingRecipe> rpmMilling;
+    private CreateRecipeCategory<PressingRecipe> rpmPressing;
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -48,7 +50,26 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
                                 RPMMillingCategory::new
                         );
 
-        registration.addRecipeCategories(rpmMilling);
+        rpmPressing =
+                new CreateRecipeCategory.Builder<>(
+                        PressingRecipe.class
+                )
+                        .addTypedRecipes(ModRecipeTypes.RPM_PRESSING)
+                        .catalyst(ModBlocks.RPM_MECHANICAL_PRESS::get)
+                        .itemIcon(ModBlocks.RPM_MECHANICAL_PRESS.get())
+                        .emptyBackground(177, 75)
+                        .build(
+                                ResourceLocation.fromNamespaceAndPath(
+                                        CreateRecipeNeedRPM.MOD_ID,
+                                        "rpm_pressing"
+                                ),
+                                RPMPressingCategory::new
+                        );
+
+        registration.addRecipeCategories(
+                rpmMilling,
+                rpmPressing
+        );
     }
 
     @Override
@@ -56,6 +77,7 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
             IRecipeRegistration registration
     ) {
         rpmMilling.registerRecipes(registration);
+        rpmPressing.registerRecipes(registration);
     }
 
     @Override
@@ -63,5 +85,6 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
             IRecipeCatalystRegistration registration
     ) {
         rpmMilling.registerCatalysts(registration);
+        rpmPressing.registerCatalysts(registration);
     }
 }
