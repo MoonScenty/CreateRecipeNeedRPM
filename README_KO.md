@@ -359,4 +359,4 @@ Create의 기존 Crushing Recipe는 유지하면서 별도의 RPM Crushing Recip
 
 ## 라이선스
 
-TBD
+이 프로젝트는 [MIT License](LICENSE)에 따라 라이선스가 부여됩니다.

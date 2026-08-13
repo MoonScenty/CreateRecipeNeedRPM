@@ -347,4 +347,4 @@ The goal is to add RPM-aware Crushing while keeping Create's original Crushing r
 
 ## License
 
-TBD
+This project is licensed under the [MIT License](LICENSE).
