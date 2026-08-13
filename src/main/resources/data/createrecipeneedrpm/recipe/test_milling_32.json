@@ -1,0 +1,16 @@
+{
+  "type": "createrecipeneedrpm:rpm_milling",
+  "ingredients": [
+    {
+      "item": "minecraft:cobblestone"
+    }
+  ],
+  "results": [
+    {
+      "id": "minecraft:gravel",
+      "count": 1
+    }
+  ],
+  "processing_time": 100,
+  "min_rpm": 32
+}
