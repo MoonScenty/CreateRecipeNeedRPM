@@ -2,12 +2,14 @@ package me.moonscenty.createrecipeneedrpm.integration.jei;
 
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.Create;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import com.simibubi.create.content.kinetics.crusher.AbstractCrushingRecipe;
 import com.simibubi.create.content.kinetics.press.PressingRecipe;
 import com.simibubi.create.content.processing.basin.BasinRecipe;
 import me.moonscenty.createrecipeneedrpm.CreateRecipeNeedRPM;
 import me.moonscenty.createrecipeneedrpm.registry.ModBlocks;
+import me.moonscenty.createrecipeneedrpm.registry.ModItems;
 import me.moonscenty.createrecipeneedrpm.registry.ModRecipeTypes;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -15,6 +17,8 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 @JeiPlugin
 public class CreateRecipeNeedRPMJEI implements IModPlugin {
@@ -23,6 +27,12 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
             ResourceLocation.fromNamespaceAndPath(
                     CreateRecipeNeedRPM.MOD_ID,
                     "jei_plugin"
+            );
+
+    private static final mezz.jei.api.recipe.RecipeType<RecipeHolder<BasinRecipe>>
+            CREATE_AUTOMATIC_PACKING =
+            mezz.jei.api.recipe.RecipeType.createRecipeHolderType(
+                    Create.asResource("automatic_packing")
             );
 
     private CreateRecipeCategory<AbstractCrushingRecipe> rpmMilling;
@@ -114,5 +124,9 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
         rpmMilling.registerCatalysts(registration);
         rpmPressing.registerCatalysts(registration);
         rpmCompacting.registerCatalysts(registration);
+        registration.addRecipeCatalyst(
+                new ItemStack(ModItems.RPM_MECHANICAL_PRESS.get()),
+                CREATE_AUTOMATIC_PACKING
+        );
     }
 }

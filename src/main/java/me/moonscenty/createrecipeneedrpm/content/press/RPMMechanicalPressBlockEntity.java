@@ -1,5 +1,7 @@
 package me.moonscenty.createrecipeneedrpm.content.press;
 
+import com.simibubi.create.AllRecipeTypes;
+import com.simibubi.create.content.kinetics.crafter.MechanicalCraftingRecipe;
 import com.simibubi.create.content.kinetics.press.MechanicalPressBlockEntity;
 import com.simibubi.create.content.kinetics.press.PressingRecipe;
 import me.moonscenty.createrecipeneedrpm.recipe.RPMCompactingRecipe;
@@ -64,8 +66,19 @@ public class RPMMechanicalPressBlockEntity
     protected boolean matchStaticFilters(
             RecipeHolder<? extends Recipe<?>> recipe
     ) {
-        return recipe.value().getType()
-                == ModRecipeTypes.RPM_COMPACTING.getType();
+        Recipe<?> value = recipe.value();
+
+        boolean automaticPacking =
+                value instanceof CraftingRecipe
+                        && !(value instanceof MechanicalCraftingRecipe)
+                        && MechanicalPressBlockEntity.canCompress(value)
+                        && !AllRecipeTypes.shouldIgnoreInAutomation(recipe);
+
+        boolean rpmCompacting =
+                value.getType()
+                        == ModRecipeTypes.RPM_COMPACTING.getType();
+
+        return automaticPacking || rpmCompacting;
     }
 
     @Override
@@ -77,8 +90,8 @@ public class RPMMechanicalPressBlockEntity
         float speed = Math.abs(getSpeed());
 
         recipes.removeIf(recipe ->
-                !(recipe instanceof RPMCompactingRecipe rpmRecipe)
-                        || speed < rpmRecipe.getMinRPM()
+                recipe instanceof RPMCompactingRecipe rpmRecipe
+                        && speed < rpmRecipe.getMinRPM()
         );
 
         recipes.sort(
@@ -89,13 +102,12 @@ public class RPMMechanicalPressBlockEntity
                         )
                         .reversed()
                         .thenComparing(
-                                Comparator
-                                        .comparingDouble(
-                                                (Recipe<?> recipe) ->
-                                                        ((RPMCompactingRecipe) recipe)
-                                                                .getMinRPM()
-                                        )
-                                        .reversed()
+                                Comparator.comparingDouble(
+                                        recipe ->
+                                                recipe instanceof RPMCompactingRecipe rpmRecipe
+                                                        ? rpmRecipe.getMinRPM()
+                                                        : -1
+                                ).reversed()
                         )
         );
 
