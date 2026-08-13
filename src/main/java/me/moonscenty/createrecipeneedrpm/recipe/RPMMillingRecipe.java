@@ -10,9 +10,9 @@ public class RPMMillingRecipe
         extends MillingRecipe
         implements RPMRequiredRecipe {
 
-    private final RPMMillingRecipeParams rpmParams;
+    private final RPMProcessingRecipeParams  rpmParams;
 
-    public RPMMillingRecipe(RPMMillingRecipeParams params) {
+    public RPMMillingRecipe(RPMProcessingRecipeParams  params) {
         super(params);
         this.rpmParams = params;
     }
@@ -22,7 +22,7 @@ public class RPMMillingRecipe
         return rpmParams.getMinRPM();
     }
 
-    public RPMMillingRecipeParams getRPMParams() {
+    public RPMProcessingRecipeParams getRPMParams() {
         return rpmParams;
     }
 

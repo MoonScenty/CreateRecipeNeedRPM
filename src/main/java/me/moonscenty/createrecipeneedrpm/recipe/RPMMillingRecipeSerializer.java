@@ -9,13 +9,13 @@ public class RPMMillingRecipeSerializer
         implements RecipeSerializer<RPMMillingRecipe> {
 
     private static final MapCodec<RPMMillingRecipe> CODEC =
-            RPMMillingRecipeParams.CODEC.xmap(
+            RPMProcessingRecipeParams.CODEC.xmap(
                     RPMMillingRecipe::new,
                     RPMMillingRecipe::getRPMParams
             );
 
     private static final StreamCodec<RegistryFriendlyByteBuf, RPMMillingRecipe> STREAM_CODEC =
-            RPMMillingRecipeParams.STREAM_CODEC.map(
+            RPMProcessingRecipeParams.STREAM_CODEC.map(
                     RPMMillingRecipe::new,
                     RPMMillingRecipe::getRPMParams
             );
