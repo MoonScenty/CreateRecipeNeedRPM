@@ -14,5 +14,7 @@
   "createrecipeneedrpm.generic.unit.rpm": " RPM",
 
   "createrecipeneedrpm.recipe.rpm_milling": "RPM Milling",
-  "createrecipeneedrpm.recipe.minimum_rpm": "Minimum RPM: %s RPM"
+  "createrecipeneedrpm.recipe.minimum_rpm": "Minimum RPM: %s RPM",
+
+  "block.createrecipeneedrpm.rpm_mechanical_press": "RPM Mechanical Press"
 }

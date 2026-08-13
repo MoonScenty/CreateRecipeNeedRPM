@@ -2,6 +2,7 @@ package me.moonscenty.createrecipeneedrpm.registry;
 
 import me.moonscenty.createrecipeneedrpm.CreateRecipeNeedRPM;
 import me.moonscenty.createrecipeneedrpm.content.millstone.RPMMillstoneBlock;
+import me.moonscenty.createrecipeneedrpm.content.press.RPMMechanicalPressBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.bus.api.IEventBus;
@@ -22,6 +23,16 @@ public final class ModBlocks {
                     )
             );
 
+    public static final DeferredBlock<RPMMechanicalPressBlock>
+            RPM_MECHANICAL_PRESS =
+            BLOCKS.register(
+                    "rpm_mechanical_press",
+                    () -> new RPMMechanicalPressBlock(
+                            BlockBehaviour.Properties.of()
+                                    .strength(3.0F)
+                                    .noOcclusion()
+                    )
+            );
     private ModBlocks() {
     }
 

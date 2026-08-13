@@ -3,6 +3,8 @@ package me.moonscenty.createrecipeneedrpm.client;
 import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.kinetics.base.SingleAxisRotatingVisual;
 import com.simibubi.create.content.kinetics.millstone.MillstoneRenderer;
+import com.simibubi.create.content.kinetics.press.MechanicalPressRenderer;
+import com.simibubi.create.content.kinetics.press.PressVisual;
 import dev.engine_room.flywheel.lib.visualization.SimpleBlockEntityVisualizer;
 import me.moonscenty.createrecipeneedrpm.CreateRecipeNeedRPM;
 import me.moonscenty.createrecipeneedrpm.registry.ModBlockEntities;
@@ -29,6 +31,13 @@ public final class ClientEvents {
                 ModBlockEntities.RPM_MILLSTONE.get(),
                 context -> (BlockEntityRenderer) new MillstoneRenderer(context)
         );
+
+        event.registerBlockEntityRenderer(
+                ModBlockEntities.RPM_MECHANICAL_PRESS.get(),
+                context ->
+                        (BlockEntityRenderer)
+                                new MechanicalPressRenderer(context)
+        );
     }
 
     @SubscribeEvent
@@ -42,6 +51,19 @@ public final class ClientEvents {
                             )
                     )
                     .skipVanillaRender(blockEntity -> true)
+                    .apply();
+
+            SimpleBlockEntityVisualizer
+                    .builder(ModBlockEntities.RPM_MECHANICAL_PRESS.get())
+                    .factory(
+                            (context, blockEntity, partialTick) ->
+                                    new PressVisual(
+                                            context,
+                                            blockEntity,
+                                            partialTick
+                                    )
+                    )
+                    .skipVanillaRender(blockEntity -> false)
                     .apply();
         });
     }

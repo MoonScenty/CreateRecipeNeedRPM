@@ -2,6 +2,7 @@ package me.moonscenty.createrecipeneedrpm.registry;
 
 import me.moonscenty.createrecipeneedrpm.CreateRecipeNeedRPM;
 import me.moonscenty.createrecipeneedrpm.content.millstone.RPMMillstoneBlockEntity;
+import me.moonscenty.createrecipeneedrpm.content.press.RPMMechanicalPressBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -27,7 +28,17 @@ public final class ModBlockEntities {
                             ModBlocks.RPM_MILLSTONE.get()
                     ).build(null)
             );
-
+    public static final DeferredHolder<
+            BlockEntityType<?>,
+            BlockEntityType<RPMMechanicalPressBlockEntity>
+            > RPM_MECHANICAL_PRESS =
+            BLOCK_ENTITY_TYPES.register(
+                    "rpm_mechanical_press",
+                    () -> BlockEntityType.Builder.of(
+                            RPMMechanicalPressBlockEntity::new,
+                            ModBlocks.RPM_MECHANICAL_PRESS.get()
+                    ).build(null)
+            );
     private ModBlockEntities() {
     }
 

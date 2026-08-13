@@ -14,5 +14,7 @@
   "createrecipeneedrpm.generic.unit.rpm": " RPM",
 
   "createrecipeneedrpm.recipe.rpm_milling": "RPM 분쇄",
-  "createrecipeneedrpm.recipe.minimum_rpm": "최소 RPM: %s RPM"
+  "createrecipeneedrpm.recipe.minimum_rpm": "최소 RPM: %s RPM",
+
+  "block.createrecipeneedrpm.rpm_mechanical_press": "RPM 기계식 압착기"
 }

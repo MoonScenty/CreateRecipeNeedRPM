@@ -33,6 +33,10 @@ public class CreateRecipeNeedRPM {
                     () -> 4.0
             );
 
+            BlockStressValues.IMPACTS.register(
+                    ModBlocks.RPM_MECHANICAL_PRESS.get(),
+                    () -> 8.0
+            );
         });
     }
 }
