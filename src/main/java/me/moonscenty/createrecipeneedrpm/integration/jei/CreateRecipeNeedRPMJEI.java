@@ -1,9 +1,11 @@
 package me.moonscenty.createrecipeneedrpm.integration.jei;
 
+import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import com.simibubi.create.content.kinetics.crusher.AbstractCrushingRecipe;
 import com.simibubi.create.content.kinetics.press.PressingRecipe;
+import com.simibubi.create.content.processing.basin.BasinRecipe;
 import me.moonscenty.createrecipeneedrpm.CreateRecipeNeedRPM;
 import me.moonscenty.createrecipeneedrpm.registry.ModBlocks;
 import me.moonscenty.createrecipeneedrpm.registry.ModRecipeTypes;
@@ -25,6 +27,7 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
 
     private CreateRecipeCategory<AbstractCrushingRecipe> rpmMilling;
     private CreateRecipeCategory<PressingRecipe> rpmPressing;
+    private CreateRecipeCategory<BasinRecipe> rpmCompacting;
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -69,10 +72,29 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
                                 ),
                                 RPMPressingCategory::new
                         );
-
+        rpmCompacting =
+                new CreateRecipeCategory.Builder<>(
+                        BasinRecipe.class
+                )
+                        .addTypedRecipes(ModRecipeTypes.RPM_COMPACTING)
+                        .catalyst(ModBlocks.RPM_MECHANICAL_PRESS::get)
+                        .catalyst(AllBlocks.BASIN::get)
+                        .doubleItemIcon(
+                                ModBlocks.RPM_MECHANICAL_PRESS.get(),
+                                AllBlocks.BASIN.get()
+                        )
+                        .emptyBackground(177, 103)
+                        .build(
+                                ResourceLocation.fromNamespaceAndPath(
+                                        CreateRecipeNeedRPM.MOD_ID,
+                                        "rpm_compacting"
+                                ),
+                                RPMCompactingCategory::new
+                        );
         registration.addRecipeCategories(
                 rpmMilling,
-                rpmPressing
+                rpmPressing,
+                rpmCompacting
         );
     }
 
@@ -82,6 +104,7 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
     ) {
         rpmMilling.registerRecipes(registration);
         rpmPressing.registerRecipes(registration);
+        rpmCompacting.registerRecipes(registration);
     }
 
     @Override
@@ -90,5 +113,6 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
     ) {
         rpmMilling.registerCatalysts(registration);
         rpmPressing.registerCatalysts(registration);
+        rpmCompacting.registerCatalysts(registration);
     }
 }

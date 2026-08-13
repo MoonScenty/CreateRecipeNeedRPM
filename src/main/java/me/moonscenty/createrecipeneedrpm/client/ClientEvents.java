@@ -94,7 +94,7 @@ public final class ClientEvents {
         if (event.getEntity() == null) {
             return;
         }
-        
+
         KineticStats kineticStats =
                 KineticStats.create(item);
 

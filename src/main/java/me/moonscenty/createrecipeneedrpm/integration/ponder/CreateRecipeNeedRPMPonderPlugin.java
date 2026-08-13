@@ -37,5 +37,13 @@ public class CreateRecipeNeedRPMPonderPlugin implements PonderPlugin {
                 Create.asResource("mechanical_press/pressing"),
                 ProcessingScenes::pressing
         );
+
+        helper.addStoryBoard(
+                BuiltInRegistries.BLOCK.getKey(
+                        ModBlocks.RPM_MECHANICAL_PRESS.get()
+                ),
+                Create.asResource("mechanical_press/compacting"),
+                ProcessingScenes::compacting
+        );
     }
 }
