@@ -89,6 +89,12 @@ public final class ClientEvents {
             return;
         }
 
+        // Creative 검색 인덱스 생성 등의 상황에서는
+        // 툴팁 이벤트에 Player가 없을 수 있음.
+        if (event.getEntity() == null) {
+            return;
+        }
+        
         KineticStats kineticStats =
                 KineticStats.create(item);
 
