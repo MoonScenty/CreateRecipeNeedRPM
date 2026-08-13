@@ -1,0 +1,13 @@
+{
+  "itemGroup.createrecipeneedrpm": "Example Mod Tab",
+  "block.createrecipeneedrpm.example_block": "Example Block",
+  "item.createrecipeneedrpm.example_item": "Example Item",
+
+  "createrecipeneedrpm.configuration.title": "CreateRecipeNeedRPM Configs",
+  "createrecipeneedrpm.configuration.section.createrecipeneedrpm.common.toml": "CreateRecipeNeedRPM Configs",
+  "createrecipeneedrpm.configuration.section.createrecipeneedrpm.common.toml.title": "CreateRecipeNeedRPM Configs",
+  "createrecipeneedrpm.configuration.items": "Item List",
+  "createrecipeneedrpm.configuration.logDirtBlock": "Log Dirt Block",
+  "createrecipeneedrpm.configuration.magicNumberIntroduction": "Magic Number Text",
+  "createrecipeneedrpm.configuration.magicNumber": "Magic Number"
+}
