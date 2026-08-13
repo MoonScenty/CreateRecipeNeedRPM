@@ -5,15 +5,21 @@ import com.simibubi.create.content.kinetics.base.SingleAxisRotatingVisual;
 import com.simibubi.create.content.kinetics.millstone.MillstoneRenderer;
 import com.simibubi.create.content.kinetics.press.MechanicalPressRenderer;
 import com.simibubi.create.content.kinetics.press.PressVisual;
+import com.simibubi.create.foundation.item.KineticStats;
 import dev.engine_room.flywheel.lib.visualization.SimpleBlockEntityVisualizer;
 import me.moonscenty.createrecipeneedrpm.CreateRecipeNeedRPM;
+import me.moonscenty.createrecipeneedrpm.integration.ponder.CreateRecipeNeedRPMPonderPlugin;
 import me.moonscenty.createrecipeneedrpm.registry.ModBlockEntities;
+import me.moonscenty.createrecipeneedrpm.registry.ModItems;
+import net.createmod.ponder.foundation.PonderIndex;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 @EventBusSubscriber(
         modid = CreateRecipeNeedRPM.MOD_ID,
@@ -42,6 +48,11 @@ public final class ClientEvents {
 
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
+
+        PonderIndex.addPlugin(
+                new CreateRecipeNeedRPMPonderPlugin()
+        );
+
         event.enqueueWork(() -> {
             SimpleBlockEntityVisualizer
                     .builder(ModBlockEntities.RPM_MILLSTONE.get())
@@ -66,5 +77,23 @@ public final class ClientEvents {
                     .skipVanillaRender(blockEntity -> false)
                     .apply();
         });
+    }
+
+    @SubscribeEvent
+    public static void addItemTooltip(ItemTooltipEvent event) {
+
+        Item item = event.getItemStack().getItem();
+
+        if (item != ModItems.RPM_MILLSTONE.get()
+                && item != ModItems.RPM_MECHANICAL_PRESS.get()) {
+            return;
+        }
+
+        KineticStats kineticStats =
+                KineticStats.create(item);
+
+        if (kineticStats != null) {
+            kineticStats.modify(event);
+        }
     }
 }
