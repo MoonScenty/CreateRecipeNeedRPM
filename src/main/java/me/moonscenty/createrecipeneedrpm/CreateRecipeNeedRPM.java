@@ -1,10 +1,7 @@
 package me.moonscenty.createrecipeneedrpm;
 
 import com.simibubi.create.api.stress.BlockStressValues;
-import me.moonscenty.createrecipeneedrpm.registry.ModBlockEntities;
-import me.moonscenty.createrecipeneedrpm.registry.ModBlocks;
-import me.moonscenty.createrecipeneedrpm.registry.ModItems;
-import me.moonscenty.createrecipeneedrpm.registry.ModRecipeTypes;
+import me.moonscenty.createrecipeneedrpm.registry.*;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -20,6 +17,8 @@ public class CreateRecipeNeedRPM {
         ModItems.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModRecipeTypes.register(modEventBus);
+
+        ModCreativeTabs.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
     }
