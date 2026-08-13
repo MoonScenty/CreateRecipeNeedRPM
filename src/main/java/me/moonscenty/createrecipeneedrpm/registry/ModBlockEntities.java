@@ -7,6 +7,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 public final class ModBlockEntities {
 
@@ -31,5 +33,16 @@ public final class ModBlockEntities {
 
     public static void register(IEventBus modEventBus) {
         BLOCK_ENTITY_TYPES.register(modEventBus);
+
+        modEventBus.addListener(ModBlockEntities::registerCapabilities);
+    }
+
+    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                RPM_MILLSTONE.get(),
+                (blockEntity, context) -> blockEntity.capability
+        );
     }
 }
