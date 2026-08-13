@@ -1,13 +1,15 @@
 {
-  "itemGroup.createrecipeneedrpm": "Example Mod Tab",
-  "block.createrecipeneedrpm.example_block": "Example Block",
-  "item.createrecipeneedrpm.example_item": "Example Item",
+  "block.createrecipeneedrpm.rpm_millstone": "RPM Millstone",
 
-  "createrecipeneedrpm.configuration.title": "CreateRecipeNeedRPM Configs",
-  "createrecipeneedrpm.configuration.section.createrecipeneedrpm.common.toml": "CreateRecipeNeedRPM Configs",
-  "createrecipeneedrpm.configuration.section.createrecipeneedrpm.common.toml.title": "CreateRecipeNeedRPM Configs",
-  "createrecipeneedrpm.configuration.items": "Item List",
-  "createrecipeneedrpm.configuration.logDirtBlock": "Log Dirt Block",
-  "createrecipeneedrpm.configuration.magicNumberIntroduction": "Magic Number Text",
-  "createrecipeneedrpm.configuration.magicNumber": "Magic Number"
+  "createrecipeneedrpm.gui.goggles.rpm_recipe": "RPM Recipe",
+
+  "createrecipeneedrpm.tooltip.current_rpm": "Current RPM",
+  "createrecipeneedrpm.tooltip.current_tier": "Current Recipe Tier",
+  "createrecipeneedrpm.tooltip.minimum_required_rpm": "Minimum Required RPM",
+  "createrecipeneedrpm.tooltip.next_tier": "Next Recipe Tier",
+
+  "createrecipeneedrpm.gui.goggles.no_recipe_input": "No recipe input",
+  "createrecipeneedrpm.gui.goggles.not_fast_enough": "Not Fast Enough",
+
+  "createrecipeneedrpm.generic.unit.rpm": " RPM"
 }
