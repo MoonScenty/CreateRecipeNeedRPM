@@ -1,5 +1,6 @@
 package me.moonscenty.createrecipeneedrpm.integration.jei;
 
+import com.simibubi.create.AllItems;
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
 import com.simibubi.create.content.kinetics.crusher.AbstractCrushingRecipe;
 import com.simibubi.create.content.kinetics.press.PressingRecipe;
@@ -56,7 +57,10 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
                 )
                         .addTypedRecipes(ModRecipeTypes.RPM_PRESSING)
                         .catalyst(ModBlocks.RPM_MECHANICAL_PRESS::get)
-                        .itemIcon(ModBlocks.RPM_MECHANICAL_PRESS.get())
+                        .doubleItemIcon(
+                                ModBlocks.RPM_MECHANICAL_PRESS.get(),
+                                AllItems.IRON_SHEET.get()
+                        )
                         .emptyBackground(177, 75)
                         .build(
                                 ResourceLocation.fromNamespaceAndPath(
