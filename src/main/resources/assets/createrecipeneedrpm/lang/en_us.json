@@ -11,5 +11,8 @@
   "createrecipeneedrpm.gui.goggles.no_recipe_input": "No recipe input",
   "createrecipeneedrpm.gui.goggles.not_fast_enough": "Not Fast Enough",
 
-  "createrecipeneedrpm.generic.unit.rpm": " RPM"
+  "createrecipeneedrpm.generic.unit.rpm": " RPM",
+
+  "createrecipeneedrpm.recipe.rpm_milling": "RPM Milling",
+  "createrecipeneedrpm.recipe.minimum_rpm": "Minimum RPM: %s RPM"
 }

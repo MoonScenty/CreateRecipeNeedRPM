@@ -11,5 +11,8 @@
   "createrecipeneedrpm.gui.goggles.no_recipe_input": "입력된 재료 없음",
   "createrecipeneedrpm.gui.goggles.not_fast_enough": "회전 속도가 부족합니다",
 
-  "createrecipeneedrpm.generic.unit.rpm": " RPM"
+  "createrecipeneedrpm.generic.unit.rpm": " RPM",
+
+  "createrecipeneedrpm.recipe.rpm_milling": "RPM 분쇄",
+  "createrecipeneedrpm.recipe.minimum_rpm": "최소 RPM: %s RPM"
 }
