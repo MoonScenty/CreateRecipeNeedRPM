@@ -2,6 +2,7 @@ package me.moonscenty.createrecipeneedrpm.registry;
 
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
 import me.moonscenty.createrecipeneedrpm.CreateRecipeNeedRPM;
+import me.moonscenty.createrecipeneedrpm.recipe.RPMCompactingRecipeSerializer;
 import me.moonscenty.createrecipeneedrpm.recipe.RPMMillingRecipeSerializer;
 import me.moonscenty.createrecipeneedrpm.recipe.RPMPressingRecipeSerializer;
 import net.minecraft.core.registries.Registries;
@@ -20,7 +21,8 @@ import java.util.function.Supplier;
 public enum ModRecipeTypes implements IRecipeTypeInfo {
 
     RPM_MILLING(RPMMillingRecipeSerializer::new),
-    RPM_PRESSING(RPMPressingRecipeSerializer::new);
+    RPM_PRESSING(RPMPressingRecipeSerializer::new),
+    RPM_COMPACTING(RPMCompactingRecipeSerializer::new);
 
     private final ResourceLocation id;
     private final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<?>> serializer;
