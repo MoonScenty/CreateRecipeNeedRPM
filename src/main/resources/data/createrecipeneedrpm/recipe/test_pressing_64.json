@@ -1,0 +1,15 @@
+{
+  "type": "createrecipeneedrpm:rpm_pressing",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "results": [
+    {
+      "id": "minecraft:iron_nugget",
+      "count": 3
+    }
+  ],
+  "min_rpm": 64
+}
