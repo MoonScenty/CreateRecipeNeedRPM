@@ -6,7 +6,9 @@ import me.moonscenty.createrecipeneedrpm.registry.ModRecipeTypes;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 
-public class RPMMillingRecipe extends MillingRecipe {
+public class RPMMillingRecipe
+        extends MillingRecipe
+        implements RPMRequiredRecipe {
 
     private final RPMMillingRecipeParams rpmParams;
 
@@ -15,6 +17,7 @@ public class RPMMillingRecipe extends MillingRecipe {
         this.rpmParams = params;
     }
 
+    @Override
     public float getMinRPM() {
         return rpmParams.getMinRPM();
     }
