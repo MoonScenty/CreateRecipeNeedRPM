@@ -89,4 +89,42 @@ public final class RPMRecipeFinder {
                 .map(holder -> holder.value() == recipe)
                 .orElse(false);
     }
+
+    public static Optional<RPMMillingRecipe> findMinimum(
+            RecipeInput input,
+            Level level
+    ) {
+        RecipeType<RPMMillingRecipe> type =
+                ModRecipeTypes.RPM_MILLING.getType();
+
+        return level.getRecipeManager()
+                .getAllRecipesFor(type)
+                .stream()
+                .map(RecipeHolder::value)
+                .filter(recipe -> recipe.matches(input, level))
+                .min(Comparator.comparingDouble(
+                        RPMMillingRecipe::getMinRPM
+                ));
+    }
+
+    public static Optional<RPMMillingRecipe> findNext(
+            RecipeInput input,
+            Level level,
+            float rpm
+    ) {
+        float speed = Math.abs(rpm);
+
+        RecipeType<RPMMillingRecipe> type =
+                ModRecipeTypes.RPM_MILLING.getType();
+
+        return level.getRecipeManager()
+                .getAllRecipesFor(type)
+                .stream()
+                .map(RecipeHolder::value)
+                .filter(recipe -> recipe.matches(input, level))
+                .filter(recipe -> recipe.getMinRPM() > speed)
+                .min(Comparator.comparingDouble(
+                        RPMMillingRecipe::getMinRPM
+                ));
+    }
 }
