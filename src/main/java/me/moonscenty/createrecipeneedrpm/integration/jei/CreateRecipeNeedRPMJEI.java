@@ -13,7 +13,7 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.resources.ResourceLocation;
 
 @JeiPlugin
-public final class CreateRecipeNeedRPMJEI implements IModPlugin {
+public class CreateRecipeNeedRPMJEI implements IModPlugin {
 
     private static final ResourceLocation ID =
             ResourceLocation.fromNamespaceAndPath(
@@ -39,7 +39,7 @@ public final class CreateRecipeNeedRPMJEI implements IModPlugin {
                         .addTypedRecipes(ModRecipeTypes.RPM_MILLING)
                         .catalyst(ModBlocks.RPM_MILLSTONE::get)
                         .itemIcon(ModBlocks.RPM_MILLSTONE.get())
-                        .emptyBackground(177, 65)
+                        .emptyBackground(177, 70)
                         .build(
                                 ResourceLocation.fromNamespaceAndPath(
                                         CreateRecipeNeedRPM.MOD_ID,

@@ -46,8 +46,8 @@ public class RPMMillingCategory extends MillingCategory {
         graphics.drawString(
                 Minecraft.getInstance().font,
                 rpmText,
-                82,
-                8,
+                6,
+                57,
                 0xFFFFFF,
                 false
         );
