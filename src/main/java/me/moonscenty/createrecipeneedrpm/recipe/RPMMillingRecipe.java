@@ -1,42 +1,40 @@
 package me.moonscenty.createrecipeneedrpm.recipe;
 
-import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
+import com.simibubi.create.content.kinetics.millstone.MillingRecipe;
+import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
 import me.moonscenty.createrecipeneedrpm.registry.ModRecipeTypes;
-import net.minecraft.world.item.crafting.RecipeInput;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 
-public class RPMMillingRecipe
-        extends ProcessingRecipe<RecipeInput, RPMMillingRecipeParams> {
+public class RPMMillingRecipe extends MillingRecipe {
+
+    private final RPMMillingRecipeParams rpmParams;
 
     public RPMMillingRecipe(RPMMillingRecipeParams params) {
-        super(ModRecipeTypes.RPM_MILLING, params);
+        super(params);
+        this.rpmParams = params;
     }
 
     public float getMinRPM() {
-        return params.getMinRPM();
+        return rpmParams.getMinRPM();
+    }
+
+    public RPMMillingRecipeParams getRPMParams() {
+        return rpmParams;
     }
 
     @Override
-    public boolean matches(RecipeInput input, Level level) {
-        if (input.isEmpty()) {
-            return false;
-        }
-
-        return ingredients.getFirst().test(input.getItem(0));
+    public RecipeSerializer<?> getSerializer() {
+        return ModRecipeTypes.RPM_MILLING.getSerializer();
     }
 
     @Override
-    protected int getMaxInputCount() {
-        return 1;
+    public RecipeType<?> getType() {
+        return ModRecipeTypes.RPM_MILLING.getType();
     }
 
     @Override
-    protected int getMaxOutputCount() {
-        return 4;
-    }
-
-    @Override
-    protected boolean canSpecifyDuration() {
-        return true;
+    public IRecipeTypeInfo getTypeInfo() {
+        return ModRecipeTypes.RPM_MILLING;
     }
 }

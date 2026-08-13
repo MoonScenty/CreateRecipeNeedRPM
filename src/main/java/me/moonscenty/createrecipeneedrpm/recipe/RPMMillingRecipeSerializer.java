@@ -1,7 +1,6 @@
 package me.moonscenty.createrecipeneedrpm.recipe;
 
 import com.mojang.serialization.MapCodec;
-import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -10,15 +9,15 @@ public class RPMMillingRecipeSerializer
         implements RecipeSerializer<RPMMillingRecipe> {
 
     private static final MapCodec<RPMMillingRecipe> CODEC =
-            ProcessingRecipe.codec(
+            RPMMillingRecipeParams.CODEC.xmap(
                     RPMMillingRecipe::new,
-                    RPMMillingRecipeParams.CODEC
+                    RPMMillingRecipe::getRPMParams
             );
 
     private static final StreamCodec<RegistryFriendlyByteBuf, RPMMillingRecipe> STREAM_CODEC =
-            ProcessingRecipe.streamCodec(
+            RPMMillingRecipeParams.STREAM_CODEC.map(
                     RPMMillingRecipe::new,
-                    RPMMillingRecipeParams.STREAM_CODEC
+                    RPMMillingRecipe::getRPMParams
             );
 
     @Override
