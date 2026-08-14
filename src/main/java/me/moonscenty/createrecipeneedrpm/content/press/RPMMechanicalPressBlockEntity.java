@@ -4,6 +4,7 @@ import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.content.kinetics.crafter.MechanicalCraftingRecipe;
 import com.simibubi.create.content.kinetics.press.MechanicalPressBlockEntity;
 import com.simibubi.create.content.kinetics.press.PressingRecipe;
+import com.simibubi.create.content.processing.sequenced.SequencedAssemblyRecipe;
 import me.moonscenty.createrecipeneedrpm.recipe.RPMCompactingRecipe;
 import me.moonscenty.createrecipeneedrpm.recipe.RPMPressingRecipe;
 import me.moonscenty.createrecipeneedrpm.recipe.RPMRecipeSelector;
@@ -44,6 +45,33 @@ public class RPMMechanicalPressBlockEntity
         RecipeType<RPMPressingRecipe> type =
                 ModRecipeTypes.RPM_PRESSING.getType();
 
+        // Sequenced Assembly의 rpm_pressing step 먼저 확인
+        Optional<RecipeHolder<RPMPressingRecipe>> sequencedRecipe =
+                SequencedAssemblyRecipe.getRecipe(
+                        level,
+                        item,
+                        type,
+                        RPMPressingRecipe.class
+                );
+
+        if (sequencedRecipe.isPresent()) {
+
+            RPMPressingRecipe recipe =
+                    sequencedRecipe.get().value();
+
+            if (Math.abs(getSpeed()) < recipe.getMinRPM()) {
+                return Optional.empty();
+            }
+
+            return sequencedRecipe.map(holder ->
+                    new RecipeHolder<PressingRecipe>(
+                            holder.id(),
+                            holder.value()
+                    )
+            );
+        }
+
+        // 일반 rpm_pressing 레시피
         SingleRecipeInput input =
                 new SingleRecipeInput(item);
 
