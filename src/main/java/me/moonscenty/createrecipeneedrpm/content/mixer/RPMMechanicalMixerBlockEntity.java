@@ -14,6 +14,7 @@ import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.block.state.BlockState;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class RPMMechanicalMixerBlockEntity
@@ -60,61 +61,34 @@ public class RPMMechanicalMixerBlockEntity
     @Override
     protected List<Recipe<?>> getMatchingRecipes() {
 
-        /*
-         * MechanicalMixerBlockEntity의 기존 로직을 그대로 사용.
-         *
-         * 여기에는:
-         * - Shapeless Crafting
-         * - RPM Mixing (matchStaticFilters에 의해)
-         * - Potion Mixing
-         * 이 들어오게 된다.
-         */
-        List<Recipe<?>> recipes =
-                super.getMatchingRecipes();
+        List<Recipe<?>> recipes = super.getMatchingRecipes();
 
         float speed = Math.abs(getSpeed());
 
-        /*
-         * RPMMixingRecipe에만 RPM 제한 적용.
-         *
-         * Shapeless Crafting / Potion Mixing은
-         * Create 기본 동작 그대로 유지한다.
-         */
         recipes.removeIf(recipe ->
                 recipe instanceof RPMMixingRecipe rpmRecipe
                         && speed < rpmRecipe.getMinRPM()
         );
 
-        /*
-         * Create 기본 우선순위:
-         * 재료가 많은 레시피 우선
-         *
-         * 동일 조건의 RPM Mixing끼리는
-         * min_rpm이 높은 것을 우선한다.
-         */
-        recipes.sort((first, second) -> {
+        List<RPMMixingRecipe> rpmRecipes = recipes.stream()
+                .filter(RPMMixingRecipe.class::isInstance)
+                .map(RPMMixingRecipe.class::cast)
+                .sorted(
+                        Comparator.comparingDouble(
+                                RPMMixingRecipe::getMinRPM
+                        ).reversed()
+                )
+                .toList();
 
-            int ingredientCompare =
-                    Integer.compare(
-                            second.getIngredients().size(),
-                            first.getIngredients().size()
-                    );
+        if (rpmRecipes.size() > 1) {
+            int index = 0;
 
-            if (ingredientCompare != 0) {
-                return ingredientCompare;
+            for (int i = 0; i < recipes.size(); i++) {
+                if (recipes.get(i) instanceof RPMMixingRecipe) {
+                    recipes.set(i, rpmRecipes.get(index++));
+                }
             }
-
-            if (first instanceof RPMMixingRecipe firstRPM
-                    && second instanceof RPMMixingRecipe secondRPM) {
-
-                return Float.compare(
-                        secondRPM.getMinRPM(),
-                        firstRPM.getMinRPM()
-                );
-            }
-
-            return 0;
-        });
+        }
 
         return recipes;
     }
@@ -122,17 +96,10 @@ public class RPMMechanicalMixerBlockEntity
     @Override
     public boolean isSpeedRequirementFulfilled() {
 
-        /*
-         * Mixer 자체의 Create 기본 최소 속도 조건부터 확인.
-         */
         if (!super.isSpeedRequirementFulfilled()) {
             return false;
         }
 
-        /*
-         * 이미 RPM 레시피를 가공 중이라면
-         * 해당 레시피의 min_rpm도 만족해야 한다.
-         */
         if (running
                 && currentRecipe instanceof RPMMixingRecipe rpmRecipe) {
 
