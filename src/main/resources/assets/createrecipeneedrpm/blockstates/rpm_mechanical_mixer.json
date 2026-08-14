@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "": {
+            "model": "createrecipeneedrpm:block/rpm_mechanical_mixer"
+        }
+    }
+}

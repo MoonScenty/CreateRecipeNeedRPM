@@ -24,6 +24,15 @@ public final class ModItems {
                             new Item.Properties()
                     )
             );
+    public static final DeferredItem<Item>
+            RPM_MECHANICAL_MIXER =
+            ITEMS.register(
+                    "rpm_mechanical_mixer",
+                    () -> new AssemblyOperatorBlockItem(
+                            ModBlocks.RPM_MECHANICAL_MIXER.get(),
+                            new Item.Properties()
+                    )
+            );
     private ModItems() {
     }
 

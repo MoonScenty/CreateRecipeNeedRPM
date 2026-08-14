@@ -5,6 +5,7 @@ import me.moonscenty.createrecipeneedrpm.CreateRecipeNeedRPM;
 import me.moonscenty.createrecipeneedrpm.recipe.RPMCompactingRecipeSerializer;
 import me.moonscenty.createrecipeneedrpm.recipe.RPMMillingRecipeSerializer;
 import me.moonscenty.createrecipeneedrpm.recipe.RPMPressingRecipeSerializer;
+import me.moonscenty.createrecipeneedrpm.recipe.RPMMixingRecipeSerializer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
@@ -22,7 +23,8 @@ public enum ModRecipeTypes implements IRecipeTypeInfo {
 
     RPM_MILLING(RPMMillingRecipeSerializer::new),
     RPM_PRESSING(RPMPressingRecipeSerializer::new),
-    RPM_COMPACTING(RPMCompactingRecipeSerializer::new);
+    RPM_COMPACTING(RPMCompactingRecipeSerializer::new),
+    RPM_MIXING(RPMMixingRecipeSerializer::new);
 
     private final ResourceLocation id;
     private final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<?>> serializer;

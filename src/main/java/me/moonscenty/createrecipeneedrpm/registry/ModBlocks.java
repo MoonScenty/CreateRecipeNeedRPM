@@ -1,7 +1,9 @@
 package me.moonscenty.createrecipeneedrpm.registry;
 
+import com.simibubi.create.AllBlocks;
 import me.moonscenty.createrecipeneedrpm.CreateRecipeNeedRPM;
 import me.moonscenty.createrecipeneedrpm.content.millstone.RPMMillstoneBlock;
+import me.moonscenty.createrecipeneedrpm.content.mixer.RPMMechanicalMixerBlock;
 import me.moonscenty.createrecipeneedrpm.content.press.RPMMechanicalPressBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -28,6 +30,17 @@ public final class ModBlocks {
             BLOCKS.register(
                     "rpm_mechanical_press",
                     () -> new RPMMechanicalPressBlock(
+                            BlockBehaviour.Properties.of()
+                                    .strength(3.0F)
+                                    .noOcclusion()
+                    )
+            );
+
+    public static final DeferredBlock<RPMMechanicalMixerBlock>
+            RPM_MECHANICAL_MIXER =
+            BLOCKS.register(
+                    "rpm_mechanical_mixer",
+                    () -> new RPMMechanicalMixerBlock(
                             BlockBehaviour.Properties.of()
                                     .strength(3.0F)
                                     .noOcclusion()

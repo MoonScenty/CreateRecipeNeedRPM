@@ -20,5 +20,7 @@
   "block.createrecipeneedrpm.rpm_mechanical_press": "RPM 기계식 압착기",
 
   "createrecipeneedrpm.recipe.rpm_pressing": "RPM 압착",
-  "createrecipeneedrpm.recipe.rpm_compacting": "RPM 압축"
+  "createrecipeneedrpm.recipe.rpm_compacting": "RPM 압축",
+
+  "block.createrecipeneedrpm.rpm_mechanical_mixer": "RPM 기계식 혼합기"
 }

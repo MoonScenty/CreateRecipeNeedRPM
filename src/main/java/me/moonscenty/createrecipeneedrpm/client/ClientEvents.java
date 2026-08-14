@@ -5,7 +5,9 @@ import com.simibubi.create.content.kinetics.base.SingleAxisRotatingVisual;
 import com.simibubi.create.content.kinetics.millstone.MillstoneRenderer;
 import com.simibubi.create.content.kinetics.press.MechanicalPressRenderer;
 import com.simibubi.create.content.kinetics.press.PressVisual;
+import com.simibubi.create.content.kinetics.mixer.MixerVisual;
 import com.simibubi.create.foundation.item.KineticStats;
+import com.simibubi.create.content.kinetics.mixer.MechanicalMixerRenderer;
 import dev.engine_room.flywheel.lib.visualization.SimpleBlockEntityVisualizer;
 import me.moonscenty.createrecipeneedrpm.CreateRecipeNeedRPM;
 import me.moonscenty.createrecipeneedrpm.integration.ponder.CreateRecipeNeedRPMPonderPlugin;
@@ -44,6 +46,11 @@ public final class ClientEvents {
                         (BlockEntityRenderer)
                                 new MechanicalPressRenderer(context)
         );
+
+        event.registerBlockEntityRenderer(
+                ModBlockEntities.RPM_MECHANICAL_MIXER.get(),
+                MechanicalMixerRenderer::new
+        );
     }
 
     @SubscribeEvent
@@ -76,6 +83,18 @@ public final class ClientEvents {
                     )
                     .skipVanillaRender(blockEntity -> false)
                     .apply();
+
+            SimpleBlockEntityVisualizer
+                    .builder(ModBlockEntities.RPM_MECHANICAL_MIXER.get())
+                    .factory(
+                            (context, blockEntity, partialTick) ->
+                                    new MixerVisual(
+                                            context,
+                                            blockEntity,
+                                            partialTick
+                                    )
+                    )
+                    .apply();
         });
     }
 
@@ -85,7 +104,8 @@ public final class ClientEvents {
         Item item = event.getItemStack().getItem();
 
         if (item != ModItems.RPM_MILLSTONE.get()
-                && item != ModItems.RPM_MECHANICAL_PRESS.get()) {
+                && item != ModItems.RPM_MECHANICAL_PRESS.get()
+                && item != ModItems.RPM_MECHANICAL_MIXER.get()) {
             return;
         }
 

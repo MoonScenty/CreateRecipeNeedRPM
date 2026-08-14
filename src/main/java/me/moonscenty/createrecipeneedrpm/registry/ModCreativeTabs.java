@@ -40,6 +40,8 @@ public final class ModCreativeTabs {
                                 output.accept(
                                         ModItems.RPM_MECHANICAL_PRESS.get()
                                 );
+
+                                output.accept(ModItems.RPM_MECHANICAL_MIXER.get());
                             })
                             .build()
             );
