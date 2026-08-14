@@ -2,6 +2,7 @@ package me.moonscenty.createrecipeneedrpm.registry;
 
 import com.simibubi.create.AllBlocks;
 import me.moonscenty.createrecipeneedrpm.CreateRecipeNeedRPM;
+import me.moonscenty.createrecipeneedrpm.content.crusher.RPMCrushingWheelBlock;
 import me.moonscenty.createrecipeneedrpm.content.millstone.RPMMillstoneBlock;
 import me.moonscenty.createrecipeneedrpm.content.mixer.RPMMechanicalMixerBlock;
 import me.moonscenty.createrecipeneedrpm.content.press.RPMMechanicalPressBlock;
@@ -46,6 +47,18 @@ public final class ModBlocks {
                                     .noOcclusion()
                     )
             );
+
+    public static final DeferredBlock<RPMCrushingWheelBlock>
+            RPM_CRUSHING_WHEEL =
+            BLOCKS.register(
+                    "rpm_crushing_wheel",
+                    () -> new RPMCrushingWheelBlock(
+                            BlockBehaviour.Properties.of()
+                                    .strength(3.0F)
+                                    .noOcclusion()
+                    )
+            );
+
     private ModBlocks() {
     }
 

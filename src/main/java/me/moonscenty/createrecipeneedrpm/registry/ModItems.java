@@ -33,6 +33,15 @@ public final class ModItems {
                             new Item.Properties()
                     )
             );
+    public static final DeferredItem<Item>
+            RPM_CRUSHING_WHEEL =
+            ITEMS.register(
+                    "rpm_crushing_wheel",
+                    () -> new BlockItem(
+                            ModBlocks.RPM_CRUSHING_WHEEL.get(),
+                            new Item.Properties()
+                    )
+            );
     private ModItems() {
     }
 

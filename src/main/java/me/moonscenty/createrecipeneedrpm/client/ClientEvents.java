@@ -4,6 +4,7 @@ import com.simibubi.create.AllPartialModels;
 import com.simibubi.create.content.kinetics.base.SingleAxisRotatingVisual;
 import com.simibubi.create.content.kinetics.millstone.MillstoneRenderer;
 import com.simibubi.create.content.kinetics.press.MechanicalPressRenderer;
+import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
 import com.simibubi.create.content.kinetics.press.PressVisual;
 import com.simibubi.create.content.kinetics.mixer.MixerVisual;
 import com.simibubi.create.foundation.item.KineticStats;
@@ -51,6 +52,11 @@ public final class ClientEvents {
                 ModBlockEntities.RPM_MECHANICAL_MIXER.get(),
                 MechanicalMixerRenderer::new
         );
+
+        event.registerBlockEntityRenderer(
+                ModBlockEntities.RPM_CRUSHING_WHEEL.get(),
+                KineticBlockEntityRenderer::new
+        );
     }
 
     @SubscribeEvent
@@ -95,6 +101,16 @@ public final class ClientEvents {
                                     )
                     )
                     .apply();
+
+            SimpleBlockEntityVisualizer
+                    .builder(ModBlockEntities.RPM_CRUSHING_WHEEL.get())
+                    .factory(
+                            SingleAxisRotatingVisual.of(
+                                    AllPartialModels.CRUSHING_WHEEL
+                            )
+                    )
+                    .skipVanillaRender(blockEntity -> true)
+                    .apply();
         });
     }
 
@@ -105,7 +121,8 @@ public final class ClientEvents {
 
         if (item != ModItems.RPM_MILLSTONE.get()
                 && item != ModItems.RPM_MECHANICAL_PRESS.get()
-                && item != ModItems.RPM_MECHANICAL_MIXER.get()) {
+                && item != ModItems.RPM_MECHANICAL_MIXER.get()
+                && item != ModItems.RPM_CRUSHING_WHEEL.get()) {
             return;
         }
 

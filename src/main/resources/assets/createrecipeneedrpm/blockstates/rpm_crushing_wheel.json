@@ -1,0 +1,16 @@
+{
+    "variants": {
+        "axis=x": {
+            "model": "createrecipeneedrpm:block/rpm_crushing_wheel",
+            "x": 90,
+            "y": 90
+        },
+        "axis=y": {
+            "model": "createrecipeneedrpm:block/rpm_crushing_wheel"
+        },
+        "axis=z": {
+            "model": "createrecipeneedrpm:block/rpm_crushing_wheel",
+            "x": 90
+        }
+    }
+}

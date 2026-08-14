@@ -42,6 +42,8 @@ public final class ModCreativeTabs {
                                 );
 
                                 output.accept(ModItems.RPM_MECHANICAL_MIXER.get());
+
+                                output.accept(ModItems.RPM_CRUSHING_WHEEL.get());
                             })
                             .build()
             );

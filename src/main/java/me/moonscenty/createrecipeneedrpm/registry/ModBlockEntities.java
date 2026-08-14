@@ -1,6 +1,7 @@
 package me.moonscenty.createrecipeneedrpm.registry;
 
 import me.moonscenty.createrecipeneedrpm.CreateRecipeNeedRPM;
+import me.moonscenty.createrecipeneedrpm.content.crusher.RPMCrushingWheelBlockEntity;
 import me.moonscenty.createrecipeneedrpm.content.millstone.RPMMillstoneBlockEntity;
 import me.moonscenty.createrecipeneedrpm.content.press.RPMMechanicalPressBlockEntity;
 import me.moonscenty.createrecipeneedrpm.content.mixer.RPMMechanicalMixerBlockEntity;
@@ -51,6 +52,19 @@ public final class ModBlockEntities {
                             .of(
                                     RPMMechanicalMixerBlockEntity::new,
                                     ModBlocks.RPM_MECHANICAL_MIXER.get()
+                            )
+                            .build(null)
+            );
+    public static final DeferredHolder<
+            BlockEntityType<?>,
+            BlockEntityType<RPMCrushingWheelBlockEntity>
+            > RPM_CRUSHING_WHEEL =
+            BLOCK_ENTITY_TYPES.register(
+                    "rpm_crushing_wheel",
+                    () -> BlockEntityType.Builder
+                            .of(
+                                    RPMCrushingWheelBlockEntity::new,
+                                    ModBlocks.RPM_CRUSHING_WHEEL.get()
                             )
                             .build(null)
             );

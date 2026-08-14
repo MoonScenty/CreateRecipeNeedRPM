@@ -1,0 +1,4 @@
+{
+    "parent": "create:block/crushing_wheel/block",
+    "render_type": "minecraft:cutout"
+}
