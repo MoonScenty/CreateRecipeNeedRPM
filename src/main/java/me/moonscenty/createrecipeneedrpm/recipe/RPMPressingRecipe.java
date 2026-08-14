@@ -5,7 +5,11 @@ import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
 import me.moonscenty.createrecipeneedrpm.registry.ModRecipeTypes;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import java.util.function.Supplier;
 
+import com.simibubi.create.compat.jei.category.sequencedAssembly.SequencedAssemblySubCategory;
+
+import me.moonscenty.createrecipeneedrpm.integration.jei.sequenced.RPMAssemblyPressing;
 public class RPMPressingRecipe
         extends PressingRecipe
         implements RPMRequiredRecipe {
@@ -39,5 +43,10 @@ public class RPMPressingRecipe
     @Override
     public IRecipeTypeInfo getTypeInfo() {
         return ModRecipeTypes.RPM_PRESSING;
+    }
+
+    @Override
+    public Supplier<Supplier<SequencedAssemblySubCategory>> getJEISubCategory() {
+        return () -> RPMAssemblyPressing::new;
     }
 }
