@@ -1,18 +1,18 @@
 package me.moonscenty.createrecipeneedrpm.integration.jei;
 
 import com.simibubi.create.compat.jei.category.CreateRecipeCategory;
-import com.simibubi.create.compat.jei.category.MillingCategory;
+import com.simibubi.create.compat.jei.category.CrushingCategory;
 import com.simibubi.create.content.kinetics.crusher.AbstractCrushingRecipe;
-import me.moonscenty.createrecipeneedrpm.recipe.RPMMillingRecipe;
+import me.moonscenty.createrecipeneedrpm.recipe.RPMCrushingRecipe;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
-public class RPMMillingCategory extends MillingCategory implements RPMCategoryHelper {
+public class RPMCrushingCategory extends CrushingCategory implements RPMCategoryHelper{
 
-    public RPMMillingCategory(
+    public RPMCrushingCategory(
             CreateRecipeCategory.Info<AbstractCrushingRecipe> info
     ) {
         super(info);
@@ -26,6 +26,7 @@ public class RPMMillingCategory extends MillingCategory implements RPMCategoryHe
             double mouseX,
             double mouseY
     ) {
+        // Create 기본 Crushing Wheel JEI 애니메이션
         super.draw(
                 recipe,
                 recipeSlotsView,
@@ -34,17 +35,17 @@ public class RPMMillingCategory extends MillingCategory implements RPMCategoryHe
                 mouseY
         );
 
-        if (!(recipe instanceof RPMMillingRecipe rpmRecipe)) {
+        if (!(recipe instanceof RPMCrushingRecipe rpmRecipe)) {
             return;
         }
-
 
         drawRPM(
                 graphics,
                 rpmRecipe.getMinRPM(),
-                81,
-                11
+                95,
+                6
         );
+
     }
 
 }

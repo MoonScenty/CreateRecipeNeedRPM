@@ -49,6 +49,7 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
     private CreateRecipeCategory<PressingRecipe> rpmPressing;
     private CreateRecipeCategory<BasinRecipe> rpmCompacting;
     private CreateRecipeCategory<BasinRecipe> rpmMixing;
+    private CreateRecipeCategory<AbstractCrushingRecipe> rpmCrushing;
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -131,11 +132,37 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
                                 ),
                                 RPMMixingCategory::new
                         );
+        rpmCrushing =
+                new CreateRecipeCategory.Builder<>(
+                        AbstractCrushingRecipe.class
+                )
+                        .addTypedRecipes(
+                                ModRecipeTypes.RPM_CRUSHING
+                        )
+                        .catalyst(
+                                ModBlocks.RPM_CRUSHING_WHEEL::get
+                        )
+                        .doubleItemIcon(
+                                ModBlocks.RPM_CRUSHING_WHEEL.get(),
+                                AllItems.CRUSHED_GOLD.get()
+                        )
+                        .emptyBackground(
+                                177,
+                                100
+                        )
+                        .build(
+                                ResourceLocation.fromNamespaceAndPath(
+                                        CreateRecipeNeedRPM.MOD_ID,
+                                        "rpm_crushing"
+                                ),
+                                RPMCrushingCategory::new
+                        );
         registration.addRecipeCategories(
                 rpmMilling,
                 rpmPressing,
                 rpmCompacting,
-                rpmMixing
+                rpmMixing,
+                rpmCrushing
         );
     }
 
@@ -147,6 +174,7 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
         rpmPressing.registerRecipes(registration);
         rpmCompacting.registerRecipes(registration);
         rpmMixing.registerRecipes(registration);
+        rpmCrushing.registerRecipes(registration);
     }
 
     @Override
@@ -171,5 +199,6 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
                 new ItemStack(ModItems.RPM_MECHANICAL_MIXER.get()),
                 CREATE_AUTOMATIC_BREWING
         );
+        rpmCrushing.registerCatalysts(registration);
     }
 }

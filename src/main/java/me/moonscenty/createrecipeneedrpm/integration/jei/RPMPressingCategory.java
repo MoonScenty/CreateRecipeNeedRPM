@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
-public class RPMPressingCategory extends PressingCategory {
+public class RPMPressingCategory extends PressingCategory implements RPMCategoryHelper {
 
     public RPMPressingCategory(
             CreateRecipeCategory.Info<PressingRecipe> info
@@ -38,31 +38,13 @@ public class RPMPressingCategory extends PressingCategory {
             return;
         }
 
-        var font = Minecraft.getInstance().font;
 
-        Component text = Component.translatable(
-                "createrecipeneedrpm.recipe.minimum_rpm",
-                formatRPM(rpmRecipe.getMinRPM())
-        ).withStyle(ChatFormatting.GOLD);
-
-        int x = (177 - font.width(text)) / 2;
-        int y = 66;
-
-        graphics.drawString(
-                font,
-                text,
-                x,
-                y,
-                0xFFFFFF,
-                false
+        drawRPM(
+                graphics,
+                rpmRecipe.getMinRPM(),
+                88,
+                65,
+                true
         );
-    }
-
-    private static String formatRPM(float rpm) {
-        if (rpm == (int) rpm) {
-            return Integer.toString((int) rpm);
-        }
-
-        return String.format("%.1f", rpm);
     }
 }

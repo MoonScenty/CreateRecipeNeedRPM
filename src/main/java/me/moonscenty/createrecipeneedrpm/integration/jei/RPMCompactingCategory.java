@@ -13,7 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
-public class RPMCompactingCategory extends BasinCategory {
+public class RPMCompactingCategory extends BasinCategory implements RPMCategoryHelper{
 
     private final AnimatedPress press = new AnimatedPress(true);
     private final AnimatedBlazeBurner heater = new AnimatedBlazeBurner();
@@ -53,36 +53,14 @@ public class RPMCompactingCategory extends BasinCategory {
 
         // 우리 모드 추가 부분
         if (recipe instanceof RPMCompactingRecipe rpmRecipe) {
-            drawMinimumRPM(graphics, rpmRecipe.getMinRPM());
+
+            drawRPM(
+                    graphics,
+                    rpmRecipe.getMinRPM(),
+                    5,
+                    6
+            );
         }
     }
 
-    private void drawMinimumRPM(GuiGraphics graphics, float minRPM) {
-        var font = Minecraft.getInstance().font;
-
-        Component text = Component.translatable(
-                "createrecipeneedrpm.recipe.minimum_rpm",
-                formatRPM(minRPM)
-        ).withStyle(ChatFormatting.GOLD);
-
-        int x = 5;
-        int y = 6;
-
-        graphics.drawString(
-                font,
-                text,
-                x,
-                y,
-                0xFFFFFF,
-                false
-        );
-    }
-
-    private static String formatRPM(float rpm) {
-        if (rpm == (int) rpm) {
-            return Integer.toString((int) rpm);
-        }
-
-        return String.format("%.1f", rpm);
-    }
 }

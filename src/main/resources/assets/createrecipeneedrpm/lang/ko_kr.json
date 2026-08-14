@@ -25,5 +25,7 @@
   "block.createrecipeneedrpm.rpm_mechanical_mixer": "RPM 기계식 혼합기",
   "createrecipeneedrpm.recipe.rpm_mixing": "RPM 혼합",
 
-  "block.createrecipeneedrpm.rpm_crushing_wheel": "RPM 분쇄 휠"
+  "block.createrecipeneedrpm.rpm_crushing_wheel": "RPM 분쇄 휠",
+
+  "createrecipeneedrpm.recipe.rpm_crushing": "RPM 분쇄"
 }

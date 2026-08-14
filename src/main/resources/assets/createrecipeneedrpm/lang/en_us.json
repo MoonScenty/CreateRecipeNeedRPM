@@ -25,5 +25,7 @@
   "block.createrecipeneedrpm.rpm_mechanical_mixer": "RPM Mechanical Mixer",
   "createrecipeneedrpm.recipe.rpm_mixing": "RPM Mixing",
 
-  "block.createrecipeneedrpm.rpm_crushing_wheel": "RPM Crushing Wheel"
+  "block.createrecipeneedrpm.rpm_crushing_wheel": "RPM Crushing Wheel",
+
+  "createrecipeneedrpm.recipe.rpm_crushing": "RPM Crushing"
 }

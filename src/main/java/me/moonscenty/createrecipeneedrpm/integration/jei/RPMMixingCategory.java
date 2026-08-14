@@ -13,7 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
-public class RPMMixingCategory extends BasinCategory {
+public class RPMMixingCategory extends BasinCategory implements RPMCategoryHelper {
 
     private final AnimatedMixer mixer = new AnimatedMixer();
     private final AnimatedBlazeBurner heater = new AnimatedBlazeBurner();
@@ -65,31 +65,11 @@ public class RPMMixingCategory extends BasinCategory {
             return;
         }
 
-        var font = Minecraft.getInstance().font;
-
-        Component text = Component.translatable(
-                "createrecipeneedrpm.recipe.minimum_rpm",
-                formatRPM(rpmRecipe.getMinRPM())
-        ).withStyle(ChatFormatting.GOLD);
-
-        int x = 5;
-        int y = 6;
-
-        graphics.drawString(
-                font,
-                text,
-                x,
-                y,
-                0xFFFFFF,
-                false
+        drawRPM(
+                graphics,
+                rpmRecipe.getMinRPM(),
+                5,
+                6
         );
-    }
-
-    private static String formatRPM(float rpm) {
-        if (rpm == (int) rpm) {
-            return Integer.toString((int) rpm);
-        }
-
-        return String.format("%.1f", rpm);
     }
 }
