@@ -53,5 +53,13 @@ public class CreateRecipeNeedRPMPonderPlugin implements PonderPlugin {
                 Create.asResource("mechanical_mixer/mixing"),
                 ProcessingScenes::mixing
         );
+
+        helper.addStoryBoard(
+                BuiltInRegistries.BLOCK.getKey(
+                        ModBlocks.RPM_CRUSHING_WHEEL.get()
+                ),
+                Create.asResource("crushing_wheel"),
+                ProcessingScenes::crushingWheels
+        );
     }
 }
