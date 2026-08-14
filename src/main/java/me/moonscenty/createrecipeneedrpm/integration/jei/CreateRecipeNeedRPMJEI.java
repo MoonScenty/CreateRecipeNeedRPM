@@ -34,10 +34,21 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
             mezz.jei.api.recipe.RecipeType.createRecipeHolderType(
                     Create.asResource("automatic_packing")
             );
+    private static final mezz.jei.api.recipe.RecipeType<RecipeHolder<BasinRecipe>>
+            CREATE_AUTOMATIC_SHAPELESS =
+            mezz.jei.api.recipe.RecipeType.createRecipeHolderType(
+                    Create.asResource("automatic_shapeless")
+            );
 
+    private static final mezz.jei.api.recipe.RecipeType<RecipeHolder<BasinRecipe>>
+            CREATE_AUTOMATIC_BREWING =
+            mezz.jei.api.recipe.RecipeType.createRecipeHolderType(
+                    Create.asResource("automatic_brewing")
+            );
     private CreateRecipeCategory<AbstractCrushingRecipe> rpmMilling;
     private CreateRecipeCategory<PressingRecipe> rpmPressing;
     private CreateRecipeCategory<BasinRecipe> rpmCompacting;
+    private CreateRecipeCategory<BasinRecipe> rpmMixing;
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -101,10 +112,30 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
                                 ),
                                 RPMCompactingCategory::new
                         );
+        rpmMixing =
+                new CreateRecipeCategory.Builder<>(
+                        BasinRecipe.class
+                )
+                        .addTypedRecipes(ModRecipeTypes.RPM_MIXING)
+                        .catalyst(ModBlocks.RPM_MECHANICAL_MIXER::get)
+                        .catalyst(AllBlocks.BASIN::get)
+                        .doubleItemIcon(
+                                ModBlocks.RPM_MECHANICAL_MIXER.get(),
+                                AllBlocks.BASIN.get()
+                        )
+                        .emptyBackground(177, 103)
+                        .build(
+                                ResourceLocation.fromNamespaceAndPath(
+                                        CreateRecipeNeedRPM.MOD_ID,
+                                        "rpm_mixing"
+                                ),
+                                RPMMixingCategory::new
+                        );
         registration.addRecipeCategories(
                 rpmMilling,
                 rpmPressing,
-                rpmCompacting
+                rpmCompacting,
+                rpmMixing
         );
     }
 
@@ -115,6 +146,7 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
         rpmMilling.registerRecipes(registration);
         rpmPressing.registerRecipes(registration);
         rpmCompacting.registerRecipes(registration);
+        rpmMixing.registerRecipes(registration);
     }
 
     @Override
@@ -127,6 +159,17 @@ public class CreateRecipeNeedRPMJEI implements IModPlugin {
         registration.addRecipeCatalyst(
                 new ItemStack(ModItems.RPM_MECHANICAL_PRESS.get()),
                 CREATE_AUTOMATIC_PACKING
+        );
+
+        rpmMixing.registerCatalysts(registration);
+        registration.addRecipeCatalyst(
+                new ItemStack(ModItems.RPM_MECHANICAL_MIXER.get()),
+                CREATE_AUTOMATIC_SHAPELESS
+        );
+
+        registration.addRecipeCatalyst(
+                new ItemStack(ModItems.RPM_MECHANICAL_MIXER.get()),
+                CREATE_AUTOMATIC_BREWING
         );
     }
 }

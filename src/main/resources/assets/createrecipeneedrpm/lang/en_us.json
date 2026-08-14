@@ -22,5 +22,6 @@
   "createrecipeneedrpm.recipe.rpm_pressing": "RPM Pressing",
   "createrecipeneedrpm.recipe.rpm_compacting": "RPM Compacting",
 
-  "block.createrecipeneedrpm.rpm_mechanical_mixer": "RPM Mechanical Mixer"
+  "block.createrecipeneedrpm.rpm_mechanical_mixer": "RPM Mechanical Mixer",
+  "createrecipeneedrpm.recipe.rpm_mixing": "RPM Mixing"
 }
