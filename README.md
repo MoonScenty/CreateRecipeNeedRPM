@@ -31,6 +31,8 @@ Each recipe can define a minimum RPM:
 "min_rpm": 64
 ```
 
+`min_rpm` must be a finite number greater than or equal to 0. There is no upper limit.
+
 When multiple recipes match the same input, the machine selects the matching recipe with the highest `min_rpm` that does not exceed the machine's current absolute RPM.
 
 Example:

@@ -31,6 +31,8 @@ CreateRecipeNeedRPM은 Minecraft 1.21.1용 Create 애드온으로, 일부 Create
 "min_rpm": 64
 ```
 
+`min_rpm`은 0 이상의 유한한 숫자여야 합니다. 상한은 없습니다.
+
 동일한 입력에 여러 레시피가 존재하면 현재 기계의 절대 RPM 이하에서 사용할 수 있는 레시피 중 `min_rpm`이 가장 높은 레시피를 선택합니다.
 
 예:

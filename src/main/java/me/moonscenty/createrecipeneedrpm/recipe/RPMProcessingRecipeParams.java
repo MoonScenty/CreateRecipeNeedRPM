@@ -1,6 +1,7 @@
 package me.moonscenty.createrecipeneedrpm.recipe;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeParams;
@@ -12,13 +13,16 @@ import java.util.function.Function;
 
 public class RPMProcessingRecipeParams extends ProcessingRecipeParams {
 
+    private static final Codec<Float> MIN_RPM_CODEC =
+            Codec.FLOAT.validate(RPMProcessingRecipeParams::validateMinRPM);
+
     public static final MapCodec<RPMProcessingRecipeParams> CODEC =
             RecordCodecBuilder.mapCodec(instance -> instance.group(
 
                     codec(RPMProcessingRecipeParams::new)
                             .forGetter(Function.identity()),
 
-                    Codec.FLOAT
+                    MIN_RPM_CODEC
                             .fieldOf("min_rpm")
                             .forGetter(RPMProcessingRecipeParams::getMinRPM)
 
@@ -41,6 +45,38 @@ public class RPMProcessingRecipeParams extends ProcessingRecipeParams {
         return minRPM;
     }
 
+    private static DataResult<Float> validateMinRPM(float minRPM) {
+        if (!Float.isFinite(minRPM)) {
+            return DataResult.error(() ->
+                    "min_rpm must be a finite number"
+            );
+        }
+
+        if (minRPM < 0.0F) {
+            return DataResult.error(() ->
+                    "min_rpm must be greater than or equal to 0"
+            );
+        }
+
+        return DataResult.success(minRPM);
+    }
+
+    private static float requireValidMinRPM(float minRPM) {
+        if (!Float.isFinite(minRPM)) {
+            throw new IllegalArgumentException(
+                    "min_rpm must be a finite number"
+            );
+        }
+
+        if (minRPM < 0.0F) {
+            throw new IllegalArgumentException(
+                    "min_rpm must be greater than or equal to 0"
+            );
+        }
+
+        return minRPM;
+    }
+
     @Override
     protected void encode(RegistryFriendlyByteBuf buffer) {
         super.encode(buffer);
@@ -50,6 +86,8 @@ public class RPMProcessingRecipeParams extends ProcessingRecipeParams {
     @Override
     protected void decode(RegistryFriendlyByteBuf buffer) {
         super.decode(buffer);
-        minRPM = ByteBufCodecs.FLOAT.decode(buffer);
+        minRPM = requireValidMinRPM(
+                ByteBufCodecs.FLOAT.decode(buffer)
+        );
     }
 }
