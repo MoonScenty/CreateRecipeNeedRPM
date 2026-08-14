@@ -4,7 +4,8 @@
   "package": "me.moonscenty.createrecipeneedrpm.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "MillstoneBlockEntityMixin"
+    "MillstoneBlockEntityMixin",
+    "CrushingWheelControllerBlockEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
