@@ -2,122 +2,83 @@
 
 [English README](README.md)
 
-Minecraft 1.21.1 NeoForge용 Create 애드온입니다.
+CreateRecipeNeedRPM은 Minecraft 1.21.1용 Create 애드온으로, 일부 Create 기계와 가공 레시피에 RPM 조건을 추가한 별도 변형을 제공합니다.
 
-Create의 기존 레시피 타입을 변경하지 않고, 가공 레시피에 최소 회전 속도와 RPM 단계별 레시피를 추가합니다.
+레시피에 `min_rpm`을 지정할 수 있으며 동일한 입력이라도 기계의 회전 속도에 따라 서로 다른 결과를 만들 수 있습니다.
 
 ## 주요 기능
 
-- 가공 레시피에 최소 RPM 조건 추가
-- 동일한 입력에 여러 RPM 단계의 레시피 정의 가능
-- 현재 회전 속도에서 사용할 수 있는 가장 높은 RPM 단계 자동 선택
-- Create의 기존 기계와 기존 레시피 타입은 그대로 유지
-- Create Kinetic Stress 연동
-- Create Ponder 연동
-- JEI 연동
-- 전용 Creative Mode 탭 제공
+### RPM 대응 기계
 
-## RPM 레시피 선택 방식
+- RPM 맷돌
+- RPM 기계식 압축기
+- RPM 기계식 믹서
+- RPM 분쇄 휠
 
-레시피에 다음 값을 지정할 수 있습니다.
+기존 Create 블록을 직접 변경하지 않고 별도의 기계를 추가하므로 기존 Create 기계와 레시피는 그대로 유지됩니다.
+
+### RPM 대응 레시피 타입
+
+- `createrecipeneedrpm:rpm_milling`
+- `createrecipeneedrpm:rpm_pressing`
+- `createrecipeneedrpm:rpm_compacting`
+- `createrecipeneedrpm:rpm_mixing`
+- `createrecipeneedrpm:rpm_crushing`
+
+각 레시피에는 다음과 같이 최소 RPM을 지정할 수 있습니다.
 
 ```json
 "min_rpm": 64
 ```
 
-같은 입력에 여러 레시피가 존재할 경우, 현재 RPM 이하의 `min_rpm` 값을 가진 레시피 중 가장 높은 단계를 선택합니다.
+동일한 입력에 여러 레시피가 존재하면 현재 기계의 절대 RPM 이하에서 사용할 수 있는 레시피 중 `min_rpm`이 가장 높은 레시피를 선택합니다.
 
-| 현재 속도 | 선택되는 레시피 |
-|---:|---|
-| 16 RPM | 사용 가능한 RPM 레시피 없음 |
-| 32 RPM | 32 RPM 레시피 |
-| 64 RPM | 64 RPM 레시피 |
-| 100 RPM | 64 RPM 레시피 |
-| 128 RPM | 128 RPM 레시피 |
-| 256 RPM | 128 RPM 레시피 |
-
-회전 방향은 영향을 주지 않으며 절대 RPM 값을 사용합니다.
-
----
-
-## RPM Millstone
-
-레지스트리 ID:
+예:
 
 ```text
-createrecipeneedrpm:rpm_millstone
+min_rpm 32  -> 결과 A
+min_rpm 64  -> 결과 B
+min_rpm 128 -> 결과 C
 ```
 
-레시피 타입:
+현재 속도가 100 RPM이면 64 RPM 레시피가 선택됩니다. 최대 RPM 조건은 없습니다.
 
-```text
-createrecipeneedrpm:rpm_milling
-```
+## 기계별 동작
 
-RPM Millstone은 Create의 기존 Millstone 동작을 최대한 그대로 재사용합니다.
+### RPM 맷돌
 
-재사용되는 기능:
+`rpm_milling` 레시피를 처리합니다.
 
-- 아이템 입력/출력
-- 가공 애니메이션
-- Kinetic Network
-- 소리 및 파티클
-- Flywheel 렌더링
-- Stress 시스템
-- Ponder 장면
+### RPM 기계식 압축기
 
-차이는 RPM 기반 레시피 선택 부분입니다.
+다음을 지원합니다.
 
-### 예제 레시피
+- `rpm_pressing`
+- `rpm_compacting`
+- Create 기본 Automatic Packing
+- Create Sequenced Assembly 내부의 `rpm_pressing`
 
-```json
-{
-  "type": "createrecipeneedrpm:rpm_milling",
-  "ingredients": [
-    {
-      "item": "minecraft:cobblestone"
-    }
-  ],
-  "results": [
-    {
-      "id": "minecraft:gravel",
-      "count": 2
-    }
-  ],
-  "processing_time": 100,
-  "min_rpm": 64
-}
-```
+Automatic Packing에는 본 모드의 `min_rpm` 조건을 적용하지 않으며 Create 기본 동작을 유지합니다.
 
-현재 RPM이 요구값보다 낮더라도 아이템은 Millstone 내부로 들어갈 수 있습니다. 속도가 부족하면 가공이 일시 정지되고, 충분한 RPM이 확보되면 다시 진행됩니다.
+### RPM 기계식 믹서
 
-Stress Impact:
+다음을 지원합니다.
 
-```text
-4 SU/RPM
-```
+- `rpm_mixing`
+- Create 기본 Shapeless Mixing
+- Create 기본 Brewing
 
----
+자동 Shapeless Mixing 및 Brewing에는 본 모드의 `min_rpm` 조건을 적용하지 않습니다. 단, Create 기본 믹서의 속도 요구사항은 그대로 적용됩니다.
 
-## RPM Mechanical Press
+### RPM 분쇄 휠
 
-레지스트리 ID:
+`rpm_crushing` 레시피만 처리합니다.
 
-```text
-createrecipeneedrpm:rpm_mechanical_press
-```
+Create 기본 Crushing Wheel과 달리 Milling 레시피 fallback을 사용하지 않습니다.
 
-RPM Mechanical Press는 RPM Pressing, RPM Compacting, 그리고 Create의 기존 Automatic Packing을 지원합니다.
+현재 RPM에서 처리 가능한 `rpm_crushing` 레시피가 없다면 유효한 분쇄 레시피가 없는 것으로 처리되며, Create 기본 Crushing Wheel의 no-recipe 동작과 마찬가지로 투입 아이템이 소실될 수 있습니다.
 
-### RPM Pressing
-
-레시피 타입:
-
-```text
-createrecipeneedrpm:rpm_pressing
-```
-
-벨트, Depot 또는 바닥 아이템을 압착할 때 사용됩니다.
+## 레시피 예제
 
 ```json
 {
@@ -129,234 +90,139 @@ createrecipeneedrpm:rpm_pressing
   ],
   "results": [
     {
-      "id": "minecraft:iron_nugget",
-      "count": 3
+      "id": "minecraft:diamond"
     }
   ],
   "min_rpm": 64
 }
 ```
 
-### RPM Compacting
+## Sequenced Assembly
 
-레시피 타입:
-
-```text
-createrecipeneedrpm:rpm_compacting
-```
-
-RPM Mechanical Press가 Basin 위에서 동작할 때 사용됩니다.
+`rpm_pressing`은 Create의 Sequenced Assembly 단계로 사용할 수 있으며 각 단계마다 서로 다른 `min_rpm`을 지정할 수 있습니다.
 
 ```json
 {
-  "type": "createrecipeneedrpm:rpm_compacting",
-  "ingredients": [
-    {
-      "item": "minecraft:cobblestone"
-    },
-    {
-      "item": "minecraft:cobblestone"
-    }
-  ],
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "tag": "c:dusts/obsidian"
+  },
   "results": [
     {
-      "id": "minecraft:stone",
-      "count": 2
+      "id": "create:sturdy_sheet"
     }
   ],
-  "min_rpm": 64
+  "sequence": [
+    {
+      "type": "createrecipeneedrpm:rpm_pressing",
+      "ingredients": [
+        {
+          "item": "create:unprocessed_obsidian_sheet"
+        }
+      ],
+      "results": [
+        {
+          "id": "create:unprocessed_obsidian_sheet"
+        }
+      ],
+      "min_rpm": 64
+    },
+    {
+      "type": "createrecipeneedrpm:rpm_pressing",
+      "ingredients": [
+        {
+          "item": "create:unprocessed_obsidian_sheet"
+        }
+      ],
+      "results": [
+        {
+          "id": "create:unprocessed_obsidian_sheet"
+        }
+      ],
+      "min_rpm": 128
+    }
+  ],
+  "transitional_item": {
+    "id": "create:unprocessed_obsidian_sheet"
+  }
 }
 ```
 
-같은 Basin 내용물에 여러 RPM Compacting 레시피가 일치하면 현재 속도에서 사용할 수 있는 가장 높은 RPM 단계를 선택합니다.
+JEI의 Sequenced Assembly 화면에서는 RPM Pressing 단계 위에 필요한 RPM이 표시됩니다.
 
-### Automatic Packing
+## KubeJS
 
-Create의 기존 Automatic Packing 동작은 그대로 유지되며 `min_rpm`을 요구하지 않습니다.
+별도의 KubeJS 전용 애드온 없이 `event.custom()`으로 CreateRecipeNeedRPM 레시피를 추가할 수 있습니다.
 
-일반적인 2x2 / 3x3 압축 Crafting Recipe는 Create의 원본 Mechanical Press와 동일하게 사용할 수 있습니다.
-
-예:
-
-```text
-철괴 4개
-   ↓
-RPM Mechanical Press + Basin
-   ↓
-철 다락문
+```js
+ServerEvents.recipes(event => {
+    event.custom({
+        type: 'createrecipeneedrpm:rpm_pressing',
+        ingredients: [
+            {
+                item: 'minecraft:iron_ingot'
+            }
+        ],
+        results: [
+            {
+                id: 'minecraft:diamond'
+            }
+        ],
+        min_rpm: 64
+    })
+})
 ```
 
-Stress Impact:
+같은 방식으로 다음 레시피를 사용할 수 있습니다.
 
 ```text
-8 SU/RPM
+rpm_milling
+rpm_pressing
+rpm_compacting
+rpm_mixing
+rpm_crushing
 ```
 
----
+또한 `event.custom()`으로 만든 `create:sequenced_assembly` 내부에서도 `rpm_pressing`을 사용할 수 있습니다.
 
-## JEI 연동
+## JEI 및 Ponder
 
-현재 다음 RPM 레시피에 전용 JEI 카테고리를 제공합니다.
+- RPM 레시피 전용 JEI 카테고리 제공
+- 레시피 화면에 최소 RPM 표시
+- Sequenced Assembly의 RPM Pressing 단계 위에 RPM을 세로 형태로 표시
+- 가능한 경우 Create의 기존 Ponder 장면 재사용
 
-- RPM Milling
-- RPM Pressing
-- RPM Compacting
+## Stress Impact
 
-각 레시피 화면에 최소 요구 RPM이 표시됩니다.
+| 기계 | Stress Impact |
+| --- | ---: |
+| RPM 맷돌 | 4 SU/RPM |
+| RPM 기계식 압축기 | 8 SU/RPM |
+| RPM 기계식 믹서 | 4 SU/RPM |
+| RPM 분쇄 휠 | 휠 하나당 8 SU/RPM |
 
-```text
-최소 RPM: 64
-```
-
-가능한 경우 Create의 기존 JEI 레이아웃과 애니메이션을 재사용합니다.
-
-일반 Packing Recipe는 Create의 기존 Automatic Packing JEI 카테고리를 그대로 사용합니다.
-
----
-
-## Ponder 연동
-
-RPM 기계는 Create의 기존 Ponder 장면과 번역을 재사용합니다.
-
-현재 지원:
-
-- RPM Millstone
-  - Millstone
-- RPM Mechanical Press
-  - Pressing
-  - Compacting
-
----
-
-## Kinetic Tooltip
-
-RPM 기계는 Create의 Kinetic Tooltip 시스템과 연동되며 다음 정보를 표시합니다.
-
-```text
-Kinetic Stress Impact
-```
-
-세부 Kinetic 정보 역시 Create의 기존 시스템을 사용합니다.
-
----
-
-## Creative Mode 탭
-
-모드 전용 Creative Mode 탭을 제공합니다.
-
-현재 포함된 기계:
-
-- RPM Millstone
-- RPM Mechanical Press
-
-추가 기계가 구현되면 계속 확장할 예정입니다.
-
----
-
-## 호환성 설계
-
-이 모드는 Create의 기존 레시피 타입을 교체하지 않습니다.
-
-기존 Create 레시피:
-
-```text
-create:milling
-create:pressing
-create:compacting
-```
-
-RPM 전용 레시피:
-
-```text
-createrecipeneedrpm:rpm_milling
-createrecipeneedrpm:rpm_pressing
-createrecipeneedrpm:rpm_compacting
-```
-
-이 구조는 Create의 기존 레시피 타입에 의존하는 다른 애드온 및 데이터팩과의 충돌 가능성을 줄이기 위한 설계입니다.
-
----
-
-## 요구 사항
+## 요구사항
 
 - Minecraft 1.21.1
-- NeoForge
-- Create 6.0.10
+- NeoForge 21.1.x
 - Java 21
+- Create 6.0.10
 
-JEI가 설치되어 있을 경우 JEI 연동 기능을 사용할 수 있습니다.
+JEI와 KubeJS가 설치되어 있는 경우 해당 연동 기능을 사용할 수 있습니다.
 
----
+## 설치
 
-## 현재 구현 상태
+1. Minecraft 1.21.1용 NeoForge를 설치합니다.
+2. Create 6.0.10과 Create의 필수 의존성을 설치합니다.
+3. CreateRecipeNeedRPM jar 파일을 `mods` 폴더에 넣습니다.
+4. 필요하다면 JEI 및 KubeJS를 추가로 설치합니다.
 
-| 기능 | 상태 |
-|---|---|
-| RPM 레시피 파라미터 | ✅ |
-| RPM 단계 선택 | ✅ |
-| RPM Millstone | ✅ |
-| RPM Milling | ✅ |
-| RPM Mechanical Press | ✅ |
-| RPM Pressing | ✅ |
-| RPM Compacting | ✅ |
-| Automatic Packing | ✅ |
-| Kinetic Stress 연동 | ✅ |
-| JEI 연동 | ✅ |
-| Ponder 연동 | ✅ |
-| Creative Mode 탭 | ✅ |
-| RPM Mechanical Mixer | 예정 |
-| RPM Mixing | 예정 |
-| RPM Crushing Wheel | 예정 |
-| RPM Crushing | 예정 |
+## 호환성 방향
 
----
+CreateRecipeNeedRPM은 Create의 기존 기계와 레시피를 직접 대체하지 않고 별도의 RPM 대응 기계와 레시피 타입을 추가하는 방식으로 설계되었습니다.
 
-## 내부 구조
-
-현재 공통 RPM 레시피 시스템은 다음 구조를 사용합니다.
-
-```text
-RPMProcessingRecipeParams
-RPMRequiredRecipe
-RPMRecipeSelector
-```
-
-기본 선택 규칙:
-
-```text
-입력 일치
-AND
-min_rpm <= abs(current_rpm)
-
-→ 조건을 만족하는 레시피 중 min_rpm이 가장 높은 레시피 선택
-```
-
----
-
-## 예정 기능
-
-### RPM Mechanical Mixer
-
-예정 레시피 타입:
-
-```text
-createrecipeneedrpm:rpm_mixing
-```
-
-Create의 Basin 및 Heat Condition 동작을 유지하면서 RPM 기반 Mixing을 지원하는 것이 목표입니다.
-
-### RPM Crushing Wheel
-
-예정 레시피 타입:
-
-```text
-createrecipeneedrpm:rpm_crushing
-```
-
-Create의 기존 Crushing Recipe는 유지하면서 별도의 RPM Crushing Recipe를 추가할 예정입니다.
-
----
+기존 Create 콘텐츠를 최대한 유지하면서 모드팩 및 데이터팩 제작자가 RPM 기반 진행 구조를 만들 수 있도록 하는 것이 목적입니다.
 
 ## 라이선스
 
-이 프로젝트는 [MIT License](LICENSE)에 따라 라이선스가 부여됩니다.
+[MIT License](LICENSE)를 따릅니다.

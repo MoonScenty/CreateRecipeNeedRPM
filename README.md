@@ -2,110 +2,83 @@
 
 [한국어 README](README_KO.md)
 
-A Minecraft 1.21.1 NeoForge addon for Create that adds minimum rotational speed requirements and RPM-based recipe tiers to processing machines, without replacing Create's original recipe types.
+CreateRecipeNeedRPM is a Create addon for Minecraft 1.21.1 that adds RPM-aware variants of selected Create machines and processing recipes.
+
+Recipes can define a `min_rpm`, allowing the same input to produce different results depending on machine speed.
 
 ## Features
 
-- Minimum RPM requirements for processing recipes
-- Multiple RPM tiers for the same input
-- Automatically selects the highest valid recipe tier for the current speed
-- Original Create machines and recipe types remain unchanged
-- Create kinetic stress integration
-- Create Ponder integration
-- JEI integration
-- Dedicated Creative Mode tab
+### RPM-aware machines
 
-## How RPM Recipe Selection Works
+- RPM Millstone
+- RPM Mechanical Press
+- RPM Mechanical Mixer
+- RPM Crushing Wheel
 
-Recipes can define:
+These are separate machines from the original Create blocks, so existing Create machines and recipes remain untouched.
+
+### RPM-aware recipe types
+
+- `createrecipeneedrpm:rpm_milling`
+- `createrecipeneedrpm:rpm_pressing`
+- `createrecipeneedrpm:rpm_compacting`
+- `createrecipeneedrpm:rpm_mixing`
+- `createrecipeneedrpm:rpm_crushing`
+
+Each recipe can define a minimum RPM:
 
 ```json
 "min_rpm": 64
 ```
 
-When multiple recipes match the same input, the machine selects the recipe with the highest `min_rpm` that does not exceed the current rotational speed.
+When multiple recipes match the same input, the machine selects the matching recipe with the highest `min_rpm` that does not exceed the machine's current absolute RPM.
 
-| Current Speed | Selected Recipe |
-|---:|---|
-| 16 RPM | No RPM recipe available |
-| 32 RPM | 32 RPM recipe |
-| 64 RPM | 64 RPM recipe |
-| 100 RPM | 64 RPM recipe |
-| 128 RPM | 128 RPM recipe |
-| 256 RPM | 128 RPM recipe |
-
-Rotation direction does not matter. The absolute RPM value is used.
-
----
-
-## RPM Millstone
-
-Registry ID:
+Example:
 
 ```text
-createrecipeneedrpm:rpm_millstone
+min_rpm 32  -> Result A
+min_rpm 64  -> Result B
+min_rpm 128 -> Result C
 ```
 
-Recipe Type:
+At 100 RPM, Result B is selected. There is no maximum RPM condition.
 
-```text
-createrecipeneedrpm:rpm_milling
-```
+## Machine behavior
 
-The RPM Millstone reuses Create's original Millstone behavior, including item handling, animation, kinetic behavior, sounds, particles, Flywheel rendering, stress handling, and Ponder scenes.
+### RPM Millstone
 
-Only recipe selection is changed.
+Processes `rpm_milling` recipes.
 
-### Example
+### RPM Mechanical Press
 
-```json
-{
-  "type": "createrecipeneedrpm:rpm_milling",
-  "ingredients": [
-    {
-      "item": "minecraft:cobblestone"
-    }
-  ],
-  "results": [
-    {
-      "id": "minecraft:gravel",
-      "count": 2
-    }
-  ],
-  "processing_time": 100,
-  "min_rpm": 64
-}
-```
+Supports:
 
-The Millstone can accept an item even when the current RPM is below the recipe requirement. Processing pauses when the speed is insufficient and resumes when enough RPM becomes available.
+- `rpm_pressing`
+- `rpm_compacting`
+- Create's normal Automatic Packing behavior
+- `rpm_pressing` inside Create Sequenced Assembly
 
-Stress Impact:
+Automatic Packing does not require this addon's `min_rpm`; Create's original behavior is preserved.
 
-```text
-4 SU/RPM
-```
+### RPM Mechanical Mixer
 
----
+Supports:
 
-## RPM Mechanical Press
+- `rpm_mixing`
+- Create's normal Shapeless Mixing behavior
+- Create's normal Brewing behavior
 
-Registry ID:
+Automatic Shapeless Mixing and Brewing do not require this addon's `min_rpm`. Create's normal mixer speed requirement still applies.
 
-```text
-createrecipeneedrpm:rpm_mechanical_press
-```
+### RPM Crushing Wheel
 
-The RPM Mechanical Press supports RPM Pressing, RPM Compacting, and Create's original Automatic Packing behavior.
+Processes `rpm_crushing` recipes only.
 
-### RPM Pressing
+Unlike Create's original Crushing Wheels, RPM Crushing Wheels do **not** fall back to Milling recipes.
 
-Recipe Type:
+If no eligible `rpm_crushing` recipe exists at the current RPM, the item is treated as having no valid crushing recipe and can be destroyed, matching Create's original no-recipe crushing behavior.
 
-```text
-createrecipeneedrpm:rpm_pressing
-```
-
-Used for pressing items on belts, depots, and world items.
+## Recipe example
 
 ```json
 {
@@ -117,234 +90,139 @@ Used for pressing items on belts, depots, and world items.
   ],
   "results": [
     {
-      "id": "minecraft:iron_nugget",
-      "count": 3
+      "id": "minecraft:diamond"
     }
   ],
   "min_rpm": 64
 }
 ```
 
-### RPM Compacting
+## Sequenced Assembly
 
-Recipe Type:
-
-```text
-createrecipeneedrpm:rpm_compacting
-```
-
-Used when the RPM Mechanical Press operates above a Basin.
+`rpm_pressing` can be used as a Create Sequenced Assembly step. Each RPM Pressing step may use a different `min_rpm`.
 
 ```json
 {
-  "type": "createrecipeneedrpm:rpm_compacting",
-  "ingredients": [
-    {
-      "item": "minecraft:cobblestone"
-    },
-    {
-      "item": "minecraft:cobblestone"
-    }
-  ],
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "tag": "c:dusts/obsidian"
+  },
   "results": [
     {
-      "id": "minecraft:stone",
-      "count": 2
+      "id": "create:sturdy_sheet"
     }
   ],
-  "min_rpm": 64
+  "sequence": [
+    {
+      "type": "createrecipeneedrpm:rpm_pressing",
+      "ingredients": [
+        {
+          "item": "create:unprocessed_obsidian_sheet"
+        }
+      ],
+      "results": [
+        {
+          "id": "create:unprocessed_obsidian_sheet"
+        }
+      ],
+      "min_rpm": 64
+    },
+    {
+      "type": "createrecipeneedrpm:rpm_pressing",
+      "ingredients": [
+        {
+          "item": "create:unprocessed_obsidian_sheet"
+        }
+      ],
+      "results": [
+        {
+          "id": "create:unprocessed_obsidian_sheet"
+        }
+      ],
+      "min_rpm": 128
+    }
+  ],
+  "transitional_item": {
+    "id": "create:unprocessed_obsidian_sheet"
+  }
 }
 ```
 
-When multiple RPM Compacting recipes match the same Basin contents, the highest available RPM tier is selected.
+JEI displays the RPM requirement above RPM Pressing steps in Sequenced Assembly.
 
-### Automatic Packing
+## KubeJS
 
-Create's original Automatic Packing behavior is preserved and does **not** require `min_rpm`.
+CreateRecipeNeedRPM works with KubeJS raw custom recipes through `event.custom()` without requiring a dedicated KubeJS addon.
 
-Normal 2x2 and 3x3 packing recipes continue to work with the RPM Mechanical Press just like they do with Create's original Mechanical Press.
-
-Example:
-
-```text
-4x Iron Ingot
-     ↓
-RPM Mechanical Press + Basin
-     ↓
-Iron Trapdoor
+```js
+ServerEvents.recipes(event => {
+    event.custom({
+        type: 'createrecipeneedrpm:rpm_pressing',
+        ingredients: [
+            {
+                item: 'minecraft:iron_ingot'
+            }
+        ],
+        results: [
+            {
+                id: 'minecraft:diamond'
+            }
+        ],
+        min_rpm: 64
+    })
+})
 ```
 
-Stress Impact:
+The same approach works with:
 
 ```text
-8 SU/RPM
+rpm_milling
+rpm_pressing
+rpm_compacting
+rpm_mixing
+rpm_crushing
 ```
 
----
+`rpm_pressing` can also be used inside a `create:sequenced_assembly` recipe created with `event.custom()`.
 
-## JEI Integration
+## JEI and Ponder
 
-Dedicated JEI categories are currently provided for:
+- Dedicated JEI categories for RPM recipes
+- Minimum RPM shown directly in recipe displays
+- Sequenced Assembly RPM Pressing steps display RPM vertically above the press
+- Create Ponder scenes are reused for RPM machines where appropriate
 
-- RPM Milling
-- RPM Pressing
-- RPM Compacting
+## Stress Impact
 
-Each RPM recipe displays its minimum required speed:
-
-```text
-Min. RPM: 64
-```
-
-The categories reuse Create's existing recipe layouts and animations where possible.
-
-Create's original Automatic Packing JEI category remains available for normal packing recipes.
-
----
-
-## Ponder Integration
-
-RPM machines reuse Create's original Ponder scenes and localization.
-
-Currently supported:
-
-- RPM Millstone
-  - Millstone
-- RPM Mechanical Press
-  - Pressing
-  - Compacting
-
----
-
-## Kinetic Tooltips
-
-RPM machines integrate with Create's kinetic tooltip system and display:
-
-```text
-Kinetic Stress Impact
-```
-
-Detailed kinetic information is available through Create's existing systems.
-
----
-
-## Creative Mode Tab
-
-The mod has its own Creative Mode tab.
-
-Currently included:
-
-- RPM Millstone
-- RPM Mechanical Press
-
-More machines will be added as development continues.
-
----
-
-## Compatibility
-
-The mod intentionally uses separate recipe types instead of replacing Create's original ones.
-
-Original Create recipe types remain untouched:
-
-```text
-create:milling
-create:pressing
-create:compacting
-```
-
-RPM-aware machines use:
-
-```text
-createrecipeneedrpm:rpm_milling
-createrecipeneedrpm:rpm_pressing
-createrecipeneedrpm:rpm_compacting
-```
-
-This design is intended to reduce conflicts with Create addons and datapacks that depend on the original Create recipe types.
-
----
+| Machine | Stress Impact |
+| --- | ---: |
+| RPM Millstone | 4 SU/RPM |
+| RPM Mechanical Press | 8 SU/RPM |
+| RPM Mechanical Mixer | 4 SU/RPM |
+| RPM Crushing Wheel | 8 SU/RPM per wheel |
 
 ## Requirements
 
 - Minecraft 1.21.1
-- NeoForge
-- Create 6.0.10
+- NeoForge 21.1.x
 - Java 21
+- Create 6.0.10
 
-JEI integration is available when JEI is installed.
+JEI and KubeJS integrations are available when those mods are installed.
 
----
+## Installation
 
-## Current Status
+1. Install NeoForge for Minecraft 1.21.1.
+2. Install Create 6.0.10 and its required dependencies.
+3. Place the CreateRecipeNeedRPM jar in the `mods` folder.
+4. Optionally install JEI and/or KubeJS.
 
-| Feature | Status |
-|---|---|
-| RPM recipe parameter | ✅ |
-| RPM tier selection | ✅ |
-| RPM Millstone | ✅ |
-| RPM Milling | ✅ |
-| RPM Mechanical Press | ✅ |
-| RPM Pressing | ✅ |
-| RPM Compacting | ✅ |
-| Automatic Packing | ✅ |
-| Kinetic Stress integration | ✅ |
-| JEI integration | ✅ |
-| Ponder integration | ✅ |
-| Creative Mode tab | ✅ |
-| RPM Mechanical Mixer | Planned |
-| RPM Mixing | Planned |
-| RPM Crushing Wheel | Planned |
-| RPM Crushing | Planned |
+## Compatibility philosophy
 
----
+CreateRecipeNeedRPM adds separate RPM-aware machines and recipe types instead of replacing Create's original machines and recipes.
 
-## Internal Structure
-
-Shared RPM recipe infrastructure currently includes:
-
-```text
-RPMProcessingRecipeParams
-RPMRequiredRecipe
-RPMRecipeSelector
-```
-
-General selection rule:
-
-```text
-matching input
-AND
-min_rpm <= abs(current_rpm)
-
-→ select the matching recipe with the highest min_rpm
-```
-
----
-
-## Planned
-
-### RPM Mechanical Mixer
-
-Planned recipe type:
-
-```text
-createrecipeneedrpm:rpm_mixing
-```
-
-The goal is to support RPM-aware Mixing while preserving Create's Basin and heat-condition behavior.
-
-### RPM Crushing Wheel
-
-Planned recipe type:
-
-```text
-createrecipeneedrpm:rpm_crushing
-```
-
-The goal is to add RPM-aware Crushing while keeping Create's original Crushing recipes untouched.
-
----
+The goal is to let modpack and datapack authors build RPM-based progression while preserving normal Create behavior and compatibility with existing Create content as much as possible.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+Licensed under the [MIT License](LICENSE).
