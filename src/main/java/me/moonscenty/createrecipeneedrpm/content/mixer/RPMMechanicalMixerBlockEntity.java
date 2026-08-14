@@ -4,18 +4,23 @@ import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.content.kinetics.mixer.MechanicalMixerBlockEntity;
 import com.simibubi.create.content.kinetics.press.MechanicalPressBlockEntity;
 import com.simibubi.create.infrastructure.config.AllConfigs;
+import me.moonscenty.createrecipeneedrpm.foundation.utility.RPMGoggleTooltip;
 import me.moonscenty.createrecipeneedrpm.recipe.RPMMixingRecipe;
+import me.moonscenty.createrecipeneedrpm.recipe.RPMRecipeSelector;
 import me.moonscenty.createrecipeneedrpm.registry.ModBlockEntities;
 import me.moonscenty.createrecipeneedrpm.registry.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class RPMMechanicalMixerBlockEntity
         extends MechanicalMixerBlockEntity {
@@ -32,6 +37,69 @@ public class RPMMechanicalMixerBlockEntity
                 pos,
                 state
         );
+    }
+
+    @Override
+    public boolean addToGoggleTooltip(
+            List<Component> tooltip,
+            boolean isPlayerSneaking
+    ) {
+        boolean parentAdded =
+                super.addToGoggleTooltip(tooltip, isPlayerSneaking);
+
+        if (level == null) {
+            return parentAdded;
+        }
+
+        boolean hasInput = getBasin()
+                .filter(blockEntity -> !blockEntity.isEmpty())
+                .isPresent();
+
+        if (!hasInput) {
+            RPMGoggleTooltip.add(
+                    tooltip,
+                    getSpeed(),
+                    false,
+                    Optional.empty(),
+                    Optional.empty(),
+                    Optional.empty()
+            );
+            return true;
+        }
+
+        RecipeType<RPMMixingRecipe> type =
+                ModRecipeTypes.RPM_MIXING.getType();
+
+        Optional<RPMMixingRecipe> current =
+                RPMRecipeSelector.findBestMatching(
+                        type,
+                        level,
+                        getSpeed(),
+                        this::matchBasinRecipe
+                ).map(RecipeHolder::value);
+        Optional<RPMMixingRecipe> minimum =
+                RPMRecipeSelector.findMinimumMatching(
+                        type,
+                        level,
+                        this::matchBasinRecipe
+                ).map(RecipeHolder::value);
+        Optional<RPMMixingRecipe> next =
+                RPMRecipeSelector.findNextMatching(
+                        type,
+                        level,
+                        getSpeed(),
+                        this::matchBasinRecipe
+                ).map(RecipeHolder::value);
+
+        RPMGoggleTooltip.add(
+                tooltip,
+                getSpeed(),
+                true,
+                current,
+                minimum,
+                next
+        );
+        return true;
     }
 
     @Override

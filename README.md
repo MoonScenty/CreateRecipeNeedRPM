@@ -190,6 +190,7 @@ rpm_crushing
 - Dedicated JEI categories for RPM recipes
 - Minimum RPM shown directly in recipe displays
 - Sequenced Assembly RPM Pressing steps display RPM vertically above the press
+- Engineer's Goggles diagnostics for the current, next, and highest recipe tiers on every RPM machine
 - Create Ponder scenes are reused for RPM machines where appropriate
 
 ## Stress Impact

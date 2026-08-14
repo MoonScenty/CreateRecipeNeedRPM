@@ -59,6 +59,27 @@ public final class RPMCrushingWheelHelper {
                 .orElse(0.0F);
     }
 
+    public static Optional<CrushingWheelControllerBlockEntity> findController(
+            LevelAccessor level,
+            BlockPos wheelPos
+    ) {
+        for (Direction direction : Direction.values()) {
+            BlockPos controllerPos = wheelPos.relative(direction);
+            BlockEntity blockEntity = level.getBlockEntity(controllerPos);
+
+            if (!(blockEntity
+                    instanceof CrushingWheelControllerBlockEntity controller)) {
+                continue;
+            }
+
+            if (findWheel(level, controllerPos).isPresent()) {
+                return Optional.of(controller);
+            }
+        }
+
+        return Optional.empty();
+    }
+
     public static void updateControllerSpeed(
             LevelAccessor level,
             BlockPos controllerPos

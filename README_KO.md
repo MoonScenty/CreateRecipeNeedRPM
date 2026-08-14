@@ -190,6 +190,7 @@ rpm_crushing
 - RPM 레시피 전용 JEI 카테고리 제공
 - 레시피 화면에 최소 RPM 표시
 - Sequenced Assembly의 RPM Pressing 단계 위에 RPM을 세로 형태로 표시
+- 엔지니어의 고글로 모든 RPM 기계의 현재, 다음, 최고 레시피 단계 진단
 - 가능한 경우 Create의 기존 Ponder 장면 재사용
 
 ## Stress Impact

@@ -8,6 +8,7 @@
   "createrecipeneedrpm.tooltip.current_tier": "Current Recipe Tier",
   "createrecipeneedrpm.tooltip.minimum_required_rpm": "Minimum Required RPM",
   "createrecipeneedrpm.tooltip.next_tier": "Next Recipe Tier",
+  "createrecipeneedrpm.tooltip.highest_tier": "Highest Recipe Tier",
 
   "createrecipeneedrpm.gui.goggles.no_recipe_input": "No recipe input",
   "createrecipeneedrpm.gui.goggles.not_fast_enough": "Not Fast Enough",

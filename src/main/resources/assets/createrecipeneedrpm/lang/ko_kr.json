@@ -8,6 +8,7 @@
   "createrecipeneedrpm.tooltip.current_tier": "현재 레시피 단계",
   "createrecipeneedrpm.tooltip.minimum_required_rpm": "최소 요구 RPM",
   "createrecipeneedrpm.tooltip.next_tier": "다음 레시피 단계",
+  "createrecipeneedrpm.tooltip.highest_tier": "최고 레시피 단계",
 
   "createrecipeneedrpm.gui.goggles.no_recipe_input": "입력된 재료 없음",
   "createrecipeneedrpm.gui.goggles.not_fast_enough": "회전 속도가 부족합니다",

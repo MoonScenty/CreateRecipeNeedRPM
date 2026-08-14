@@ -8,6 +8,7 @@ import net.minecraft.world.level.Level;
 
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public final class RPMRecipeSelector {
 
@@ -114,6 +115,72 @@ public final class RPMRecipeSelector {
                 .filter(holder ->
                         holder.value().getMinRPM() > speed
                 )
+                .min(Comparator.comparingDouble(
+                        holder -> holder.value().getMinRPM()
+                ));
+    }
+
+    /**
+     * RecipeInput 대신 별도의 매칭 로직이 필요한 레시피에서 사용한다.
+     * Basin 레시피처럼 블록 엔티티 상태를 직접 검사해야 하는 경우를 위한 검색이다.
+     */
+    public static <
+            I extends RecipeInput,
+            R extends Recipe<I> & RPMRequiredRecipe
+            >
+    Optional<RecipeHolder<R>> findBestMatching(
+            RecipeType<R> type,
+            Level level,
+            float rpm,
+            Predicate<R> matches
+    ) {
+        float speed = Math.abs(rpm);
+
+        return level.getRecipeManager()
+                .getAllRecipesFor(type)
+                .stream()
+                .filter(holder -> matches.test(holder.value()))
+                .filter(holder -> speed >= holder.value().getMinRPM())
+                .max(Comparator.comparingDouble(
+                        holder -> holder.value().getMinRPM()
+                ));
+    }
+
+    public static <
+            I extends RecipeInput,
+            R extends Recipe<I> & RPMRequiredRecipe
+            >
+    Optional<RecipeHolder<R>> findMinimumMatching(
+            RecipeType<R> type,
+            Level level,
+            Predicate<R> matches
+    ) {
+        return level.getRecipeManager()
+                .getAllRecipesFor(type)
+                .stream()
+                .filter(holder -> matches.test(holder.value()))
+                .min(Comparator.comparingDouble(
+                        holder -> holder.value().getMinRPM()
+                ));
+    }
+
+    public static <
+            I extends RecipeInput,
+            R extends Recipe<I> & RPMRequiredRecipe
+            >
+    Optional<RecipeHolder<R>> findNextMatching(
+            RecipeType<R> type,
+            Level level,
+            float rpm,
+            Predicate<R> matches
+    ) {
+        float speed = Math.abs(rpm);
+
+        return level.getRecipeManager()
+                .getAllRecipesFor(type)
+                .stream()
+                .filter(holder -> matches.test(holder.value()))
+                .filter(holder -> holder.value().getMinRPM() > speed)
                 .min(Comparator.comparingDouble(
                         holder -> holder.value().getMinRPM()
                 ));
