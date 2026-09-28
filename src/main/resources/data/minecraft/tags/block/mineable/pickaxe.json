@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "createrecipeneedrpm:rpm_millstone",
+    "createrecipeneedrpm:rpm_mechanical_press",
+    "createrecipeneedrpm:rpm_mechanical_mixer",
+    "createrecipeneedrpm:rpm_crushing_wheel"
+  ]
+}
