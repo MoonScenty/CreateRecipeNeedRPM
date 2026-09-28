@@ -197,12 +197,14 @@ rpm_crushing
 
 ## Stress Impact
 
-| 기계 | Stress Impact |
-| --- | ---: |
-| RPM 맷돌 | 4 SU/RPM |
-| RPM 기계식 압축기 | 8 SU/RPM |
-| RPM 기계식 믹서 | 4 SU/RPM |
-| RPM 분쇄 휠 | 휠 하나당 8 SU/RPM |
+각 RPM 기계는 대응하는 Create 원본 기계와 같은 Stress Impact를 사용합니다. 값은 Create 서버 config(`stressValues`)에서 실시간으로 읽어오므로, 원본 기계의 값을 변경하면 RPM 기계에도 그대로 적용됩니다.
+
+| 기계 | 따르는 원본 | 기본값 |
+| --- | --- | ---: |
+| RPM 맷돌 | `create:millstone` | 4 SU/RPM |
+| RPM 기계식 압축기 | `create:mechanical_press` | 8 SU/RPM |
+| RPM 기계식 믹서 | `create:mechanical_mixer` | 4 SU/RPM |
+| RPM 분쇄 휠 | `create:crushing_wheel` | 휠 하나당 8 SU/RPM |
 
 ## 요구사항
 

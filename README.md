@@ -197,12 +197,14 @@ rpm_crushing
 
 ## Stress Impact
 
-| Machine | Stress Impact |
-| --- | ---: |
-| RPM Millstone | 4 SU/RPM |
-| RPM Mechanical Press | 8 SU/RPM |
-| RPM Mechanical Mixer | 4 SU/RPM |
-| RPM Crushing Wheel | 8 SU/RPM per wheel |
+Each RPM machine uses the same stress impact as its original Create counterpart. The value is read from Create's server config (`stressValues`) at runtime, so changing the original machine's impact also changes the RPM machine.
+
+| Machine | Follows | Default |
+| --- | --- | ---: |
+| RPM Millstone | `create:millstone` | 4 SU/RPM |
+| RPM Mechanical Press | `create:mechanical_press` | 8 SU/RPM |
+| RPM Mechanical Mixer | `create:mechanical_mixer` | 4 SU/RPM |
+| RPM Crushing Wheel | `create:crushing_wheel` | 8 SU/RPM per wheel |
 
 ## Requirements
 
